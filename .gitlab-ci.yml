@@ -1,0 +1,99 @@
+# name: Corona-Test
+cache:
+  key:
+    files:
+      - yarn.lock
+      - .nvmrc
+  paths:
+    - api-app/node_modules/.cache
+    - booking-app/node_modules/.cache
+
+stages:
+  - install
+  - build
+  - test
+  - deploy
+  - cleanup
+
+before_script:
+  # define collapsible sections: https://docs.gitlab.com/ee/ci/jobs/index.html#custom-collapsible-sections
+  - ANSI_PINK_BOLD="\e[35;1m"
+  - ANSI_RESET="\e[0;m"
+  - open_block() { echo -e "\e[0Ksection_start:`date +%s`:$1[collapsed=`test \"$3\" = \"collapsed\" && echo true || echo false`]\r\e[0K${ANSI_PINK_BOLD}$2${ANSI_RESET}"; }
+  - close_block() { echo -e "\e[0Ksection_end:`date +%s`:$1\r\e[0K"; }
+  - open_block "install-nodejs" "Install and use Node.js (nvm)" "collapsed"
+  - nvm install
+  - nvm use
+  - close_block "install-nodejs"
+  - open_block "main-job-script" "Main job script for job \"$CI_JOB_NAME\""
+  # cannot close block "main-job-script" in after_script as after_script runs in a separate context
+
+
+frontend_packages_install:
+  stage: install
+  before_script:
+    - cd booking-app
+  script:
+    - yarn --prefer-offline
+    - close_block "main-job-script"
+  only:
+    -  prelive
+
+frontend_build:
+  stage: build
+  before_script:
+    - cd booking-app
+  script:
+    - yarn run build
+  artifacts:
+    paths:
+      - build
+    expire_in: 14 days
+  only:
+    - prelive
+
+deploy_front:
+  stage: deploy
+  #  before_script:
+  #    - echo $ng_prelive_build
+  #    - echo $deploy_prelife_front_path
+  script:
+    - echo "Deploy Frontend "
+    - rsync -avzh -no-o --no-g --no-perms booking-app/build/ /var/www/test01.yeta.app/html/
+    - close_block "main-job-script"
+  only:
+    - prelive
+
+######################################################################################################
+
+backend_packages_install:
+  stage: install
+  before_script:
+    - cd api-app
+  script:
+    - yarn --prefer-offline
+    - close_block "main-job-script"
+  only:
+    -  prelive
+
+backend_build:
+  stage: build
+  before_script:
+    - cd api-app
+  script:
+    - npx lerna run build
+  artifacts:
+    paths:
+      - dist
+    expire_in: 14 days
+  only:
+    - prelive
+
+deploy_Api:
+  stage: deploy
+  script:
+    - echo "Deploy API"
+    - rsync -no-o --no-g --no-perms api-app/dist/ /var/www/test01.yeta.app/node/dist
+  only:
+    - prelive
+

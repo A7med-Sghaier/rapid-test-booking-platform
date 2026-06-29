@@ -1,0 +1,34 @@
+doctype html
+html(lang='en')
+    head
+        title Request Resgistration Data!
+        link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css')
+
+    body
+        div Sehr geehrte/r #{data.person.firstName} #{data.person.secondName},
+            wir von yeta.app/#{data.settings.name} haben soeben Ihr Testergebnis verschlüsselt auf den Datenaustauschserver hochgeladen.
+
+        div.mt-3 ABRUF DES CORONA-WARN-APP:
+        div ----------------------
+        div Verwenden Sie das folgende Link für den Abruf des CORONA-WARN-APP:
+        div.mt-1
+            a(href=data.warnAppUrl) #{data.warnAppUrl}
+
+
+        div.mt-3 FALLS POSITIV:
+        div Bitte besuchen Sie im Falle eines positiven Ergebnisses diesen Link für weitere Informationen:
+        div
+            a(href='https://www.landkreis-muenchen.de/fileadmin/files/news/2021_11_02_Infoblatt_positiver_Schnelltest.pdf') https://www.landkreis-muenchen.de/fileadmin/files/news/2021_11_02_Infoblatt_positiver_Schnelltest.pdf
+
+
+        div.mt-3 BITTE BEACHTEN SIE:
+        div ----------------------
+        div - Ein negatives Testergebnis bedeutet keine absolute Sicherheit(siehe Details auf dem Zertifikat)
+        div - bei einem positiven Schnelltestergebnis gehen Sie bitte sofort zu einem PCR - Testzentrum oder Arzt, um einen PCR - Test durchzuführen, und bewahren Sie strenge Selbst - Isolation.
+
+        div.mt-3 Wir wünschen Ihnen alles Gute und Gesundheit,
+        div ---
+        div.mt-1 #{data.settings.name}
+        div #{data.settings.name}
+        div #{data.settings.address}
+        div #{data.settings.postalCode} #{data.settings.city}

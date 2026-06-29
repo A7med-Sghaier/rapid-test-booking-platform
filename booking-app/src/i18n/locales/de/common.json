@@ -1,0 +1,172 @@
+{
+  "dateFormat": "{{date, dd.MM.yyyy }}",
+  "dateRange": {
+    "startDate": "Start Datum",
+    "endDate": "End Datum"
+  },
+  "day": {
+    "Mo": "Montag",
+    "Tu": "Dienstag",
+    "We": "Mittwoch",
+    "Th": "Donnerstag",
+    "Fr": "Freitag",
+    "Sa": "Samstag",
+    "Su": "Sonntag"
+  },
+  "global": {
+    "goToWebsite": "Weiter zur Webseite",
+    "addMore": "Mehr anzeigen",
+    "cancel": "Abbrechen",
+    "addPerson": "Teilnehmer hinzufügen",
+    "add": "Hinzufügen",
+    "savePerson": "Speichern",
+    "bookNow": "Jetzt buchen",
+    "firstTime": "Sind Sie das erste mal bei uns",
+    "newRegistration": "neue Anmeldung",
+    "reebooking": "reebooking",
+    "toRegistration": " Anmelden",
+    "pleaseRegister": "Melden Sie sich bitte an. ",
+    "haveBeenWithBefore": "Waren Sie schon mal bei uns",
+    "pleaseGiveMail": "Bitte Mail Adresse eingeben",
+    "youWillGetRegistrationLink": "Sie kriegen einen Anmeldelink auf Ihre bei uns registrierte Mail-Adresse",
+    "sendUrl": "Link senden",
+    "pleaseNote": "Bitte beachten Sie",
+    "bookPolicy": {
+      "prefix": "Ich habe die ",
+      "word": "Datenschutzhinweise",
+      "suffix": " von YETA.APP gelesen und stimme diesen zu.",
+      "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,"
+    },
+    "pocAntigenPolicy": {
+      "prefix": "Ich habe die aufgeführten ",
+      "word": "Hinweise ",
+      "suffix": "zum PoC-Antigen-Test auf SARS-CoV-2 gelesen und stimme der Durchführung zu.",
+      "text": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   \n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,"
+    }
+  },
+  "form": {
+    "agreement": "Zustimmung",
+    "token": "Token",
+    "testDate": "Datum der Test Durchführung",
+    "test-results": "Test-Ergebnis",
+    "label": "Label",
+    "price": "Preis",
+    "optionalRequired": "(Optional)",
+    "save": "Speichern",
+    "cin": "Ausweisnummer",
+    "time-from": "von (hh:mm)",
+    "time-to": "bis (hh:mm)",
+    "from": "von",
+    "to": "bis",
+    "testType": "Leistung",
+    "name": "Name",
+    "maxPerSlot": "Max Personenzahl pro Zeitspanne",
+    "login": "einloggen",
+    "userName": "Benutzername / E-Mail",
+    "password": "Passwort",
+    "firstName": "Vorname",
+    "secondName": "Nachname",
+    "birthDate": "Geburtsdatum",
+    "email": "E-Mail",
+    "email_repeat": "E-Mail-Adresse wiederholen",
+    "telephone": "Telefon",
+    "country": "Land",
+    "address": "Adresse",
+    "city": "Ort",
+    "postalCode": "PLZ",
+    "allCountries": "All Länder",
+    "priorCountries": "",
+    "today-search-all-field": "Name / E-mail / Geburtsdatum",
+    "healthOfficeEmail": "Gesundheitsamt-Email",
+    "add": {
+      "testKits": "Neues Test-Kits"
+    },
+    "actions": {
+      "add": "hinzufügen"
+    },
+    "errors": {
+      "email_not_matched": "Eingabefeld E-Mail trifft nicht zu",
+      "invalid_date_format": "Das Datumsformat sollte wie folgt sein: dd.mm.yyyy",
+      "invalid_time_format": "Das Zeitformat sollte wie folgt sein: HH:mm",
+      "time_to_should_be_not_earlier_than_time_from": "Die Zeit 'bis' sollte nicht früher sein als die Zeit 'von'"
+    }
+  },
+  "registration": {
+    "step": {
+      "test-type": "Leistung wählen",
+      "select-appointment": "Termin wählen",
+      "add-persons": "Personendaten",
+      "short": {
+        "test-type": "Leistung",
+        "select-appointment": "Termin",
+        "add-persons": "Daten"
+      }
+    }
+  },
+  "bookingDone": {
+    "manyThank": "Vielen Dank!",
+    "weReceivedYourBookingOnName": "Wir haben Ihre Buchung auf den Namen {{name}} erhalten.",
+    "messageInfo": "Sie erhalten in den nächsten Minuten an die angegebene E-Mail Adresse {{email}} eine Nachricht mit allen Details.",
+    "noticeInfo": "Bitte bringen Sie zu dem Termin ein Ausweisdokument, z.B. Ihren Personalausweis mit.",
+    "noticeThank": "Vielen Dank und bleiben Sie gesund!"
+  },
+  "bookingCancel": {
+    "all": "Alle",
+    "cancel": "Buchungsstornierung",
+    "canceled": "Die Buchung wurde storniert",
+    "cancelBt": "Buchung stornieren",
+    "whoShouldBeCanceled": "Wer soll storniert werden :",
+    "messageInfo": "Sie erhalten in den nächsten Minuten an die angegebene E-Mail Adresse {{email}} eine Terminstornirungsbestätigung."
+  },
+  "admin": {
+    "today": "Heute",
+    "addAgent": "Agent hinzufügen",
+    "create-appointment": "Termin hinzufügen",
+    "addAppointment": "Neuen Termin hinzufügen",
+    "appointments": "Termine",
+    "setResult": "Ergebnis Eintragen",
+    "checkin": "Einchecken",
+    "remove": "Löschen",
+    "results": "Ergebnisse ",
+    "tickets": "Tickets",
+    "quickCheck": "Fast Check-In",
+    "appointmentOverview": "Terminübersicht",
+    "giveYourCredentials": "Bitte geben Sie ihre Mail Adresse und das Passwort ein",
+    "checkedInAt": "Eingecheckt um"
+  },
+  "test": {
+    "negative": "Negativ",
+    "positive": "Positiv",
+    "invalid": "Ungültig",
+    "citizen": "SCHNELLTEST",
+    "pcr": "PCR-Test"
+  },
+  "menu": {
+    "dashboard": "Übersicht",
+    "today": "Heute",
+    "test-persons": "Probanden",
+    "appointments": "Termine",
+    "archive": "Archive",
+    "testsFor": "Tests für",
+    "agents": "Agenten",
+    "settings": "Einstellungen",
+    "basic-data": "Stammdaten",
+    "email": "Email",
+    "opening-times": "Öffnungszeiten",
+    "slots-settings": "Zeitverwaltung",
+    "test-kits": "Test-Kits",
+    "test-types": "Leistungen"
+  },
+  "cwa": {
+    "noTransmission": "Keine Übertragung von Daten in die \"Corona-Warn-App\"",
+    "transmissionOfData": "Einwilligung mit Übertragung von persönlichen Daten in die Corona-Warn-App",
+    "transmissionAnonym": "Einwilligung ohne Übertragung von persönlichen Daten in die Corona-Warn-App",
+    "cwaPolicy": {
+      "prefix": "",
+      "word": "Die Datenschutzhinweise zur Registrierung an der Corona-Warn-App",
+      "suffix": " habe ich gelesen, verstanden und akzeptiere sie als Teil des Vertrags.",
+      "textTitle": "ANLAGE 3: DATENSCHUTZ-HINWEIS",
+      "text": "DATENSCHUTZHINWEIS\n\n\r „Hinweise zum Datenschutz: Sie* möchten die Corona-Warn-App („App“) des Robert Koch-Instituts („RKI“) zum Abruf Ihres Testergebnisses eines Antigentests verwenden. Um Ihr Testergebnis über die App abrufen zu können ist es notwendig, dass Ihr Testergebnis von der Teststelle an das Serversystem des RKI übermittelt wird. Verkürzt dargestellt erfolgt dies, indem die Teststelle Ihr Testergebnis, verknüpft mit einem maschinenlesbaren Code, auf einem hierfür bestimmten Server des RKI ablegt. Der Code ist Ihr Pseudonym, weitere Angaben zu Ihrer Person sind für die Anzeige des Testergebnisses in der App nicht erforderlich. Sie können die Anzeige des Testergebnisses jedoch für sich durch Angabe Ihres Namens, Vornamens und Geburtsdatums personalisieren lassen.\n\n\r Der Code wird aus dem vorgesehenen Zeitpunkt des Tests und einer Zufallszahl gebildet. Die Bildung des Codes erfolgt, indem die vorgenannten Daten so miteinander verrechnet werden, dass ein Zurückrechnen der Daten aus dem Code nicht mehr möglich ist\n\n\r. Sie erhalten eine Kopie des Codes in der Darstellung eines QR-Codes, der durch die Kamerafunktion Ihres Smartphones in die App eingelesen werden kann. Alternativ können Sie den pseudonymen Code auch als Internetverweis erhalten („App Link“), der von der App geöffnet und verarbeitet werden kann. Nur hierdurch ist eine Verknüpfung des Testergebnisses mit Ihrer App möglich. Mit Ihrer Einwilligung können Sie dann Ihr Testergebnis mit Hilfe der App abrufen. Ihr Testergebnis wird automatisch nach 21 Tagen auf dem Server gelöscht. Wenn Sie mit der Übermittlung Ihres pseudonymen Testergebnisses mittels des Codes an die App-Infrastruktur zum Zweck des Testabrufs einverstanden sind, bestätigen Sie dies bitte gegenüber den Mitarbeitern der Teststelle. Sie können Ihre Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen. Bitte beachten Sie jedoch, dass aufgrund dervorhandenen Pseudonymisierung eine Zuordnung zu Ihrer Person nicht erfolgen kann und daher eine Löschung Ihrer Daten erst mit Ablauf der 21-tägigen Speicherfrist automatisiert erfolgt. Einzelheiten hierzu finden Sie zudem in den »Datenschutzhinweisen« der Corona-Warn-App des RKI. “ \n\n\r *Wenn Sie jünger als 16 Jahre alt sind, besprechen Sie die Nutzung der App bitte mit Ihren Eltern oder Ihrer sorgeberechtigten Person.\n\n\r EINWILLIGUNGSTEXTE\n\n\r A) EINWILLIGUNG ZUR PSEUDONYMISIERTEN ÜBERMITTLUNG (NICHT-NAMENTLICHE ANZEIGE)::\n\n „Das Einverständnis des Getesteten zum Übermitteln des Testergebnisses und des pseudonymen Codes an das Serversystem des RKI zum Zweck des Ergebnisabrufs in der Corona-Warn-App wurde erteilt. Es wurde darauf hingewiesen, dass das Testergebnis in der App hierbei nicht als namentlicher Testnachweis verwendet werden kann. Dem Getesteten wurden Hinweise zum Datenschutz ausgehändigt. “\n\n\n\n alternativ:\n\n\n \n\n\n „Hiermit erkläre ich mein Einverständnis zum Übermitteln meines Testergebnisses und meines pseudonymen\nCodes an das Serversystem des RKI, damit ich mein Testergebnis mit der Corona-Warn-App abrufen kann. Das Testergebnis in der App kann hierbei nicht als namentlicher Testnachweis verwendet werden. Mir wurden Hinweise zum Datenschutz ausgehändigt. “ \n\n\n B) EINWILLIGUNG ZUR PERSONALISIERTEN ÜBERMITTLUNG (NAMENTLICHER TESTNACHWEIS):\n\n\n „Das Einverständnis des Getesteten zum Übermitteln des Testergebnisses und des pseudonymen Codes an das Serversystem des RKI zum Zweck des Ergebnisabrufs in der Corona-Warn-App wurde erteilt. Der Getestete willigte außerdem in die Übermittlung von Name und Geburtsdatum an die App zur Anzeige des Testergebnisses in der App als namentlicher Testnachweis ein. Dem Getesteten wurden Hinweise zum Datenschutz ausgehändigt.“\n\n\r alternativ:\n\n\r „Hiermit erkläre ich mein Einverständnis zum Übermitteln des Testergebnisses und meines pseudonymen Codes an das Serversystem des RKI, damit ich mein Testergebnis mit der Corona-Warn-App abrufen kann. Ich willige außerdem in die Übermittlung meines Namens und Geburtsdatums an die App ein, damit mein Testergebnis in der App als namentlicher Testnachweis angezeigt werden kann. Mir wurden Hinweise zum Datenschutz ausgehändigt.“"
+    }
+  }
+}
