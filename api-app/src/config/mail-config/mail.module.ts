@@ -2,26 +2,30 @@ import { Module } from '@nestjs/common';
 import { MailService } from './mail.service';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
+import { AppConfigModule } from '../app-config/app-config.module';
 import { AppConfigService } from '../app-config/app-config.service';
 
 @Module({
   providers: [MailService],
   exports: [MailService],
   imports: [
+    AppConfigModule,
     MailerModule.forRootAsync({
-      useFactory: () => ({
+      imports: [AppConfigModule],
+      inject: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => ({
         transport: {
-          host: 'rw0b73.webhosting.systems',
+          host: appConfigService.mailHost,
           ignoreTLS: true,
-          secure: true, // true for 465, false for other ports
-          debug: true,
+          secure: true,
+          debug: appConfigService.appEnv !== 'production',
           auth: {
-            user: 'yeta@qontrola.com', // generated user
-            pass: 'Wasser13!', // generated password
+            user: appConfigService.mailUser,
+            pass: appConfigService.mailPwd,
           },
         },
         defaults: {
-          from: `"Yeta-Test01 - No Reply" <no-reply@qontrola.com>`,
+          from: `"${appConfigService.appName} - No Reply" <no-reply@${appConfigService.appDomain}>`,
         },
         template: {
           dir: __dirname + '/templates',
