@@ -1,0 +1,83 @@
+services:
+  mongo:
+    image: mongo:6
+    container_name: rapid-test-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: rapid-test-booking
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+      - ./docker/mongo-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: rapid-test-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  api:
+    build:
+      context: ./api-app
+    container_name: rapid-test-api
+    restart: unless-stopped
+    depends_on:
+      mongo:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    environment:
+      APP_DOMAIN: localhost:3000
+      NODE_PORT: 3500
+      APP_NAME: Rapid Test Booking Platform
+      NODE_ENV: development
+      DB_HOST: mongo
+      DB_PORT: 27017
+      DB_NAME: rapid-test-booking
+      DB_USER: ""
+      DB_PWD: ""
+      MAIL_HOST: mailpit
+      MAIL_USER: demo@example.com
+      MAIL_PWD: demo-password
+      JWT_SECRET: local-docker-jwt-secret
+      CRYPTO_KEY: local-docker-crypto-key
+      COLLECTION_LOGIN: logins
+      COLLECTION_APPOINTMENTS: appointments
+      COLLECTION_SETTINGS: settings
+      CWA_HOST: https://example.com
+      CWA_WRU_KEY: local-demo-wru-key
+      CWA_CERT: local-demo-certificate
+      CWA_PASS: local-demo-certificate-password
+    ports:
+      - "3500:3500"
+
+  frontend:
+    build:
+      context: ./booking-app
+    container_name: rapid-test-frontend
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_started
+    environment:
+      REACT_APP_API_HOST: http://localhost
+      REACT_APP_API_PORT: 3500
+      REACT_APP_API_PATH_PREFIX: test-app-api
+      REACT_APP_TOKEN_NAME: rapid-test-token
+      CHOKIDAR_USEPOLLING: "true"
+      WDS_SOCKET_PORT: 0
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+
+volumes:
+  mongo-data:
