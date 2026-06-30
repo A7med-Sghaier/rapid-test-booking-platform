@@ -10,13 +10,13 @@ This repository is being prepared as a portfolio-safe version of a personal/free
 - Implemented an administration dashboard for appointments, agents, settings, statistics, check-in and result workflows.
 - Developed a NestJS backend with JWT authentication, MongoDB-backed persistence, email notifications, PDF generation, QR code helpers, and WebSocket events.
 - Added environment-based configuration for database, mail, auth, encryption, and integration settings.
-- Included Jest test scaffolding and lint/format scripts for both frontend and backend packages.
+- Included lint, format, build, and test scaffolding for both frontend and backend packages.
 
 ## Tech Stack
 
 - Frontend: React 17, TypeScript, Material UI, Bootstrap, Chart.js, i18next, socket.io client
 - Backend: NestJS 8, TypeScript, MongoDB, Passport, JWT, Mailer, PDFKit, QR code generation, WebSockets
-- Tooling: Yarn, Jest, ESLint, Prettier
+- Tooling: Yarn, Jest, ESLint, Prettier, GitHub Actions
 
 ## Repository Structure
 
@@ -82,6 +82,10 @@ yarn build
 yarn test
 yarn lint
 ```
+
+## Verification
+
+The current GitHub Actions workflow installs dependencies, builds the backend, builds the frontend, and scans for obvious committed secrets. The legacy generated NestJS spec files still need dependency-injection cleanup before backend unit tests become a reliable CI gate.
 
 ## Configuration
 
