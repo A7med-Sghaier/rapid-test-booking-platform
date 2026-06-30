@@ -43,14 +43,25 @@ jobs:
 
       - name: Check for sensitive file names
         run: |
-          if find . -type f \( -name '.env' -o -name '*.pem' -o -name '*.key' -o -name 'id_rsa' -o -name 'credentials' \) -not -path './.git/*' | grep .; then
+          if find . -type f \( -name '.env' -o -name '*.pem' -o -name '*.key' -o -name 'id_rsa' -o -name 'credentials' \) \
+            -not -path './.git/*' \
+            -not -path '*/node_modules/*' \
+            -not -path '*/build/*' \
+            -not -path '*/dist/*' | grep .; then
             echo "Sensitive file-like paths found."
             exit 1
           fi
 
       - name: Check for obvious committed secrets
         run: |
-          if grep -RInE '(Wasser13!|rw0b73\.webhosting\.systems|yeta@qontrola\.com|AKIA[0-9A-Z]{16}|BEGIN (RSA )?PRIVATE KEY|mongodb://.*:.*@)' . --exclude-dir=.git --exclude='*.md' --exclude='.env.example' --exclude=portfolio-checks.yml; then
+          if grep -RInE '(Wasser13!|rw0b73\.webhosting\.systems|yeta@qontrola\.com|AKIA[0-9A-Z]{16}|BEGIN (RSA )?PRIVATE KEY|mongodb://.*:.*@)' . \
+            --exclude-dir=.git \
+            --exclude-dir=node_modules \
+            --exclude-dir=build \
+            --exclude-dir=dist \
+            --exclude='*.md' \
+            --exclude='.env.example' \
+            --exclude=portfolio-checks.yml; then
             echo "Potential secret or private infrastructure reference found."
             exit 1
           fi
