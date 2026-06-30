@@ -1,93 +1,109 @@
-# Schnell-Test
+# Rapid Test Booking Platform
 
-Schnell test
+Full-stack booking and administration platform for rapid test appointments. The project combines a React/TypeScript booking UI with a NestJS API for appointment workflows, administration, authentication, QR code generation, PDF documents, email notifications, realtime events, and statistics.
 
-## Getting started
+This repository is being prepared as a portfolio-safe version of a personal/freelance project. Production credentials, real appointment data, and private deployment details should stay out of the repository.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Portfolio Highlights
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- Built a multi-step appointment booking flow with React, TypeScript, Material UI, validation, localization, and responsive form components.
+- Implemented an administration dashboard for appointments, agents, settings, statistics, check-in and result workflows.
+- Developed a NestJS backend with JWT authentication, MongoDB-backed persistence, email notifications, PDF generation, QR code helpers, and WebSocket events.
+- Added environment-based configuration for database, mail, auth, encryption, and integration settings.
+- Included Jest test scaffolding and lint/format scripts for both frontend and backend packages.
 
-## Add your files
+## Tech Stack
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+- Frontend: React 17, TypeScript, Material UI, Bootstrap, Chart.js, i18next, socket.io client
+- Backend: NestJS 8, TypeScript, MongoDB, Passport, JWT, Mailer, PDFKit, QR code generation, WebSockets
+- Tooling: Yarn, Jest, ESLint, Prettier
 
+## Repository Structure
+
+```text
+api-app/       NestJS API, auth, appointments, administration, mail, QR, PDF, sockets, statistics
+booking-app/   React booking and administration frontend
+.env.example   Safe local configuration template
+SECURITY.md    Public-release and secret handling notes
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/habouba-it-services/favreq/schnell-test.git
-git branch -M main
-git push -uf origin main
+
+## Local Setup
+
+The project contains separate frontend and backend packages. Use Node.js 16 or a compatible Node version for the original dependency set.
+
+1. Create local environment configuration:
+
+```bash
+cp .env.example api-app/.env
 ```
 
-## Integrate with your tools
+2. Install backend dependencies:
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://gitlab.com/habouba-it-services/favreq/schnell-test/-/settings/integrations)
+```bash
+cd api-app
+yarn install
+```
 
-## Collaborate with your team
+3. Start the backend:
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```bash
+yarn start:dev
+```
 
-## Test and Deploy
+4. Install frontend dependencies:
 
-Use the built-in continuous integration in GitLab.
+```bash
+cd ../booking-app
+yarn install
+```
 
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://gitlab.com/-/experiment/new_project_readme_content:cd37a7e29ba2a0e28a3170d2f2415247?https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+5. Start the frontend:
 
-***
+```bash
+yarn start
+```
 
-# Editing this README
+## Development Commands
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com) for this template.
+Backend:
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```bash
+cd api-app
+yarn build
+yarn test
+yarn lint
+```
 
-## Name
-Choose a self-explaining name for your project.
+Frontend:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+```bash
+cd booking-app
+yarn build
+yarn test
+yarn lint
+```
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+## Configuration
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+All sensitive runtime values should be provided through environment variables. See `.env.example` for placeholders covering:
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- MongoDB connection settings
+- Mail host/user/password
+- JWT secret and encryption key
+- Collection names
+- Corona-Warn-App integration placeholders
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Do not commit real credentials, real appointment records, customer data, test results, certificates, or deployment hostnames.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## Current Portfolio Status
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+This repository is private while it is being cleaned and documented. Before making it public, verify that:
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- no real credentials or private infrastructure details remain
+- no real appointment, patient, customer, or test-result data is included
+- setup instructions are accurate from a clean checkout
+- screenshots or demo material are generated from safe local data
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+## Portfolio Summary
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
-
+Rapid Test Booking Platform demonstrates full-stack product delivery across React, TypeScript, NestJS, MongoDB, authentication, operational dashboards, document generation, QR workflows, email notifications, and realtime app events.
