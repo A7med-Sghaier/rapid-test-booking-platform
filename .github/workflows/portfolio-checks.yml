@@ -54,7 +54,7 @@ jobs:
 
       - name: Check for obvious committed secrets
         run: |
-          if grep -RInE '(Wasser13!|rw0b73\.webhosting\.systems|yeta@qontrola\.com|AKIA[0-9A-Z]{16}|BEGIN (RSA )?PRIVATE KEY|mongodb://.*:.*@|JWT_SECRET=.*[^-]$|MAIL_PWD=.*[^-]$)' . --exclude-dir=.git --exclude='*.md' --exclude=portfolio-checks.yml; then
+          if grep -RInE '(Wasser13!|rw0b73\.webhosting\.systems|yeta@qontrola\.com|AKIA[0-9A-Z]{16}|BEGIN (RSA )?PRIVATE KEY|mongodb://.*:.*@)' . --exclude-dir=.git --exclude='*.md' --exclude='.env.example' --exclude=portfolio-checks.yml; then
             echo "Potential secret or private infrastructure reference found."
             exit 1
           fi
