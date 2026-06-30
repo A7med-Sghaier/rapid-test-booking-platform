@@ -10,6 +10,21 @@ else
   COMPOSE=(docker compose -f "$COMPOSE_FILE")
 fi
 
+remove_named_container_if_present() {
+  local container_name="$1"
+  if docker ps -a --format '{{.Names}}' | grep -qx "$container_name"; then
+    echo "Removing existing container: $container_name"
+    docker rm -f "$container_name" >/dev/null
+  fi
+}
+
+remove_project_containers() {
+  remove_named_container_if_present rapid-test-mongo
+  remove_named_container_if_present rapid-test-mailpit
+  remove_named_container_if_present rapid-test-api
+  remove_named_container_if_present rapid-test-frontend
+}
+
 command="${1:-up}"
 
 case "$command" in
@@ -20,10 +35,11 @@ case "$command" in
     "${COMPOSE[@]}" up --build -d
     ;;
   down)
-    "${COMPOSE[@]}" down
+    "${COMPOSE[@]}" down --remove-orphans
     ;;
   clean)
     "${COMPOSE[@]}" down -v --remove-orphans
+    remove_project_containers
     ;;
   logs)
     "${COMPOSE[@]}" logs -f "${@:2}"
