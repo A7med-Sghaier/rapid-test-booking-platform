@@ -1,0 +1,60 @@
+name: Portfolio checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  checks:
+    name: Project checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "16"
+          cache: yarn
+          cache-dependency-path: |
+            api-app/yarn.lock
+            booking-app/yarn.lock
+
+      - name: Install backend dependencies
+        working-directory: api-app
+        run: yarn install --frozen-lockfile
+
+      - name: Build backend
+        working-directory: api-app
+        run: yarn build
+
+      - name: Run backend tests
+        working-directory: api-app
+        run: yarn test --runInBand
+
+      - name: Install frontend dependencies
+        working-directory: booking-app
+        run: yarn install --frozen-lockfile
+
+      - name: Build frontend
+        working-directory: booking-app
+        run: CI=false yarn build
+
+      - name: Check for sensitive file names
+        run: |
+          if find . -type f \( -name '.env' -o -name '*.pem' -o -name '*.key' -o -name 'id_rsa' -o -name 'credentials' \) -not -path './.git/*' | grep .; then
+            echo "Sensitive file-like paths found."
+            exit 1
+          fi
+
+      - name: Check for obvious committed secrets
+        run: |
+          if grep -RInE '(Wasser13!|rw0b73\.webhosting\.systems|yeta@qontrola\.com|AKIA[0-9A-Z]{16}|BEGIN (RSA )?PRIVATE KEY|mongodb://.*:.*@|JWT_SECRET=.*[^-]$|MAIL_PWD=.*[^-]$)' . --exclude-dir=.git --exclude='*.md' --exclude=portfolio-checks.yml; then
+            echo "Potential secret or private infrastructure reference found."
+            exit 1
+          fi
