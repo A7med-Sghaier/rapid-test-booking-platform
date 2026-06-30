@@ -18,6 +18,8 @@ export class AppConfigService {
   private readonly _mongoDBConnection!: string;
   private readonly _mongoDBName!: string;
   private readonly _mailHost!: string;
+  private readonly _mailPort!: number;
+  private readonly _mailSecure!: boolean;
   private readonly _mailUser!: string;
   private readonly _mailPwd!: string;
   private readonly _authJwtSecret!: string;
@@ -56,6 +58,14 @@ export class AppConfigService {
 
   get mailHost(): string {
     return this._mailHost;
+  }
+
+  get mailPort(): number {
+    return this._mailPort;
+  }
+
+  get mailSecure(): boolean {
+    return this._mailSecure;
   }
 
   get mailUser(): string {
@@ -110,6 +120,8 @@ export class AppConfigService {
     this._mongoDBConnection = this._getMongoDBConnectionFromEnv();
     this._mongoDBName = this._getMongoDBNameFromEnv();
     this._mailHost = this._getMailHostFromEnv();
+    this._mailPort = this._getMailPortFromEnv();
+    this._mailSecure = this._getMailSecureFromEnv();
     this._mailUser = this._getMailUserFromEnv();
     this._mailPwd = this._getMailPwdFromEnv();
     this._authJwtSecret = this._getAuthJwtSecret();
@@ -206,6 +218,16 @@ export class AppConfigService {
       );
     }
     return mailHost;
+  }
+
+  private _getMailPortFromEnv(): number {
+    const mailPort = this._configService.get<string>('MAIL_PORT') || '465';
+    return Number(mailPort);
+  }
+
+  private _getMailSecureFromEnv(): boolean {
+    const mailSecure = this._configService.get<string>('MAIL_SECURE');
+    return mailSecure === undefined ? true : mailSecure === 'true';
   }
 
   private _getMailUserFromEnv(): string {
