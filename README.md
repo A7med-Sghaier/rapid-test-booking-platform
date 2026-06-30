@@ -10,21 +10,25 @@ This repository is being prepared as a portfolio-safe version of a personal/free
 - Implemented an administration dashboard for appointments, agents, settings, statistics, check-in and result workflows.
 - Developed a NestJS backend with JWT authentication, MongoDB-backed persistence, email notifications, PDF generation, QR code helpers, and WebSocket events.
 - Added environment-based configuration for database, mail, auth, encryption, and integration settings.
+- Included Docker-based local startup for the API, frontend, MongoDB, demo seed data, and local email capture.
 - Included lint, format, build, and test scaffolding for both frontend and backend packages.
 
 ## Tech Stack
 
 - Frontend: React 17, TypeScript, Material UI, Bootstrap, Chart.js, i18next, socket.io client
 - Backend: NestJS 8, TypeScript, MongoDB, Passport, JWT, Mailer, PDFKit, QR code generation, WebSockets
-- Tooling: Yarn, Jest, ESLint, Prettier, GitHub Actions
+- Tooling: Docker Compose, Yarn, Jest, ESLint, Prettier, GitHub Actions
 
 ## Repository Structure
 
 ```text
-api-app/       NestJS API, auth, appointments, administration, mail, QR, PDF, sockets, statistics
-booking-app/   React booking and administration frontend
-.env.example   Safe local configuration template
-SECURITY.md    Public-release and secret handling notes
+api-app/                 NestJS API, auth, appointments, administration, mail, QR, PDF, sockets, statistics
+booking-app/             React booking and administration frontend
+docker/mongo-init/       Safe local MongoDB demo seed data
+scripts/run-all-stacks.sh Docker helper for running the full local stack
+docker-compose.yml       Local API, frontend, MongoDB, and Mailpit stack
+.env.example             Safe local configuration template
+SECURITY.md              Public-release and secret handling notes
 ```
 
 ## Documentation
@@ -33,11 +37,60 @@ SECURITY.md    Public-release and secret handling notes
 - [Public release checklist](docs/public-release-checklist.md): safety checks before making the repository public.
 - [Demo and screenshot plan](docs/demo-plan.md): safe screenshot plan for the README and portfolio profile.
 
-## Local Setup
+## Docker Setup
 
-The project contains separate frontend and backend packages. Use Node.js 16 or a compatible Node version for the original dependency set.
+The recommended local path is Docker. It avoids local Node/Corepack/Yarn version issues and starts the full stack together.
 
-1. Create local environment configuration:
+Requirements:
+
+- Docker Desktop
+- Docker Compose v2, or the legacy `docker-compose` command
+
+Start everything:
+
+```bash
+bash scripts/run-all-stacks.sh up
+```
+
+Or run in the background:
+
+```bash
+bash scripts/run-all-stacks.sh upd
+```
+
+Open the app:
+
+```text
+Frontend: http://localhost:3000
+API: http://localhost:3500/test-app-api
+Mailpit inbox: http://localhost:8025
+MongoDB: localhost:27017
+```
+
+Demo admin login:
+
+```text
+Username: admin
+Password: admin123
+```
+
+Useful stack commands:
+
+```bash
+bash scripts/run-all-stacks.sh ps
+bash scripts/run-all-stacks.sh logs
+bash scripts/run-all-stacks.sh logs api
+bash scripts/run-all-stacks.sh down
+bash scripts/run-all-stacks.sh clean
+```
+
+`clean` removes the Docker volume, so MongoDB demo data will be recreated on the next startup.
+
+## Manual Local Setup
+
+Use this only if you want to run packages outside Docker. The original dependency set works best with Node.js 16 and Yarn Classic 1.x.
+
+1. Create backend environment configuration:
 
 ```bash
 cp .env.example api-app/.env
@@ -48,12 +101,16 @@ cp .env.example api-app/.env
 ```bash
 cd api-app
 yarn install
+yarn start:dev
 ```
 
-3. Start the backend:
+3. Create frontend environment configuration in `booking-app/.env`:
 
-```bash
-yarn start:dev
+```env
+REACT_APP_API_HOST=http://localhost
+REACT_APP_API_PORT=3500
+REACT_APP_API_PATH_PREFIX=test-app-api
+REACT_APP_TOKEN_NAME=rapid-test-token
 ```
 
 4. Install frontend dependencies:
@@ -61,11 +118,6 @@ yarn start:dev
 ```bash
 cd ../booking-app
 yarn install
-```
-
-5. Start the frontend:
-
-```bash
 yarn start
 ```
 
