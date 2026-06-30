@@ -45,6 +45,8 @@ services:
       DB_USER: ""
       DB_PWD: ""
       MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      MAIL_SECURE: "false"
       MAIL_USER: demo@example.com
       MAIL_PWD: demo-password
       JWT_SECRET: local-docker-jwt-secret
