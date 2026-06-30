@@ -16,8 +16,9 @@ import { AppConfigService } from '../app-config/app-config.service';
       useFactory: (appConfigService: AppConfigService) => ({
         transport: {
           host: appConfigService.mailHost,
-          ignoreTLS: true,
-          secure: true,
+          port: appConfigService.mailPort,
+          ignoreTLS: !appConfigService.mailSecure,
+          secure: appConfigService.mailSecure,
           debug: appConfigService.appEnv !== 'production',
           auth: {
             user: appConfigService.mailUser,
