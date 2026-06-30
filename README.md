@@ -27,6 +27,12 @@ booking-app/   React booking and administration frontend
 SECURITY.md    Public-release and secret handling notes
 ```
 
+## Documentation
+
+- [Architecture](docs/architecture.md): system overview, frontend/backend responsibilities, data flow, and portfolio value.
+- [Public release checklist](docs/public-release-checklist.md): safety checks before making the repository public.
+- [Demo and screenshot plan](docs/demo-plan.md): safe screenshot plan for the README and portfolio profile.
+
 ## Local Setup
 
 The project contains separate frontend and backend packages. Use Node.js 16 or a compatible Node version for the original dependency set.
