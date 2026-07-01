@@ -65,11 +65,26 @@ export const buildSlots = (
   }, []);
 };
 
-const createDateSlot = (date: Date, slotsValidator: any): { date: Date } => {
+const getOpeningTimeForDate = (date: Date, slotsValidator: any) => {
+  const shortDayKey = format(date, 'EEEEEE', { locale: enUS });
+  const longDayKey = format(date, 'eeee', { locale: enUS }).toLowerCase();
+
+  return slotsValidator[shortDayKey] || slotsValidator[longDayKey];
+};
+
+const createDateSlot = (
+  date: Date,
+  slotsValidator: any,
+  searchDepth = 0
+): { date: Date } => {
+  if (searchDepth > 14) {
+    return { date };
+  }
+
   if (testSlotDateValidation(date, slotsValidator)) {
     return { date };
   }
-  return createDateSlot(addDays(date, 1), slotsValidator);
+  return createDateSlot(addDays(date, 1), slotsValidator, searchDepth + 1);
 };
 
 const createTimeSlots = (
@@ -77,18 +92,22 @@ const createTimeSlots = (
   slotsValidator: any,
   timeFilter: { bookedSlots: any[]; maxCountProSlot: number }
 ) => {
-  const dayKey = format(date, 'EEEEEE', { locale: enUS });
+  const daySettings = getOpeningTimeForDate(date, slotsValidator);
 
-  if (slotsValidator[dayKey] && !slotsValidator[dayKey].from) {
-    slotsValidator[dayKey].from = '06:00';
+  if (!daySettings || !daySettings.isOpen) {
+    return [];
   }
-  if (slotsValidator[dayKey] && !slotsValidator[dayKey].to) {
-    slotsValidator[dayKey].to = '20:00';
+
+  if (!daySettings.from) {
+    daySettings.from = '06:00';
+  }
+  if (!daySettings.to) {
+    daySettings.to = '20:00';
   }
 
   const [currHr, currMin] = format(addMinutes(date, 10), 'HH:mm').split(':');
-  let [fromHr, fromMin] = slotsValidator[dayKey].from.split(':');
-  const [toHr, toMin] = slotsValidator[dayKey].to.split(':');
+  let [fromHr, fromMin] = daySettings.from.split(':');
+  const [toHr, toMin] = daySettings.to.split(':');
 
   if (compareAsc(new Date(), date) === 0) {
     if (fromHr < currHr || (fromHr === currHr && fromMin < currMin)) {
@@ -135,8 +154,8 @@ const createTimeSlots = (
 };
 
 const testSlotDateValidation = (date: Date, slotsValidator: any) => {
-  const dayKey = format(date, 'EEEEEE', { locale: enUS });
-  if (!slotsValidator[dayKey] || !slotsValidator[dayKey].isOpen) {
+  const daySettings = getOpeningTimeForDate(date, slotsValidator);
+  if (!daySettings || !daySettings.isOpen) {
     return false;
   }
 
@@ -145,6 +164,6 @@ const testSlotDateValidation = (date: Date, slotsValidator: any) => {
   }
 
   const [currHr, currMin] = format(addMinutes(date, 10), 'HH:mm').split(':');
-  const [toHour, ToMinutes] = slotsValidator[dayKey].to.split(':');
+  const [toHour, ToMinutes] = daySettings.to.split(':');
   return currHr < toHour || (currHr == toHour && currMin < ToMinutes);
 };
