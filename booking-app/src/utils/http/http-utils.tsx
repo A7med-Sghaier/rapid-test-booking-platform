@@ -6,21 +6,24 @@
  * version : 1.0
  * copyright : all right reserved 2022
  *************************************************************/
+const API_HOST = process.env.REACT_APP_API_HOST || 'http://localhost';
+const API_PORT = process.env.REACT_APP_API_PORT || '3500';
+const API_PATH_PREFIX = process.env.REACT_APP_API_PATH_PREFIX || 'test-app-api';
+
+export const getApiBaseUrl = () => {
+  return [API_HOST, ':', API_PORT].join('');
+};
+
 export const urlBuilder = (path: string) => {
   if (!path.startsWith('/')) {
     path = '/' + path;
   }
 
-  if (process.env.REACT_APP_API_PATH_PREFIX) {
-    path = '/' + process.env.REACT_APP_API_PATH_PREFIX + path;
+  if (API_PATH_PREFIX) {
+    path = '/' + API_PATH_PREFIX + path;
   }
 
-  return [
-    process.env.REACT_APP_API_HOST,
-    ':',
-    process.env.REACT_APP_API_PORT,
-    path,
-  ].join('');
+  return [getApiBaseUrl(), path].join('');
 };
 
 export const urlParamsBinder = (
