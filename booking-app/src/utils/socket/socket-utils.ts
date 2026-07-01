@@ -1,4 +1,5 @@
 import { io } from 'socket.io-client';
+import { getApiBaseUrl } from '../http/http-utils';
 
 /*************************************************************
  * booking-app - socket-utils.ts
@@ -15,7 +16,4 @@ export enum SOCKET_APPOINTMENT_MSG {
   APPOINTMENT_CANCELED = 'appointment-canceled',
 }
 
-export const socket = io(
-  process.env.REACT_APP_API_HOST +
-    (process.env.REACT_APP_API_PORT ? ':' + process.env.REACT_APP_API_PORT : '')
-);
+export const socket = io(getApiBaseUrl());
