@@ -19,7 +19,6 @@ import {
 } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { urlBuilder } from '../http/http-utils';
-import { TestData } from '../../modules/administration/resources/interfaces';
 
 export interface SlotProps {
   date: Date;
@@ -45,7 +44,7 @@ export const buildSlots = (
   slotsValidator: any,
   timeFilter: { bookedSlots: any[]; maxCountProSlot: number }
 ): SlotProps[] => {
-  return Array.from(Array(slotsNbr)).reduce((dateSlots, _) => {
+  return Array.from({ length: slotsNbr }).reduce<SlotProps[]>((dateSlots) => {
     const currentDate = dateSlots.length
       ? addDays(dateSlots[dateSlots.length - 1].date, 1)
       : new Date();
