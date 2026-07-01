@@ -7,7 +7,7 @@
  * copyright : all right reserved 2022
  *************************************************************/
 import React, { useContext } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { DataFormProvider } from '../../../contexts/forms/data-form-context';
 import { LoginPage } from './login-page';
 import { AuthContext } from '../../../contexts/auth/auth-context';
@@ -20,7 +20,11 @@ export const AdminHome: React.FC = ({ children }) => {
       <Route
         path=""
         element={
-          isLoggedIn ? <Navigate to="sections" /> : <Navigate to="login" />
+          isLoggedIn ? (
+            <Navigate to="/admin/sections" />
+          ) : (
+            <Navigate to="/admin/login" />
+          )
         }
       />
       <Route path="login/*">
@@ -28,7 +32,7 @@ export const AdminHome: React.FC = ({ children }) => {
           path=""
           element={
             isLoggedIn ? (
-              <Navigate to="../../sections" />
+              <Navigate to="/admin/sections" />
             ) : (
               <DataFormProvider>
                 <LoginPage />
@@ -49,7 +53,7 @@ export const AdminHome: React.FC = ({ children }) => {
             path=":data"
             element={
               isLoggedIn ? (
-                <Navigate to="../../../sections" />
+                <Navigate to="/admin/sections" />
               ) : (
                 <DataFormProvider>
                   <LoginPage />
@@ -61,7 +65,7 @@ export const AdminHome: React.FC = ({ children }) => {
       </Route>
       <Route
         path="sections/*"
-        element={isLoggedIn ? <AdminPage /> : <Navigate to="../login" />}>
+        element={isLoggedIn ? <AdminPage /> : <Navigate to="/admin/login" />}>
         <Route path=":section" element={<AdminPage />} />
       </Route>
     </Routes>
