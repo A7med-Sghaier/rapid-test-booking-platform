@@ -359,7 +359,7 @@ export const Registration: React.FC = ({ children }) => {
                 element={<Navigate to={BookingSteps.TEST_TYPE} />}
               />
               <Route
-                path={`:${BookingSteps.TEST_TYPE}`}
+                path={BookingSteps.TEST_TYPE}
                 element={
                   <TestTypes
                     onSelect={() => {
@@ -369,7 +369,7 @@ export const Registration: React.FC = ({ children }) => {
                 }
               />
               <Route
-                path={`:${BookingSteps.SELECT_APPOINTMENT}`}
+                path={BookingSteps.SELECT_APPOINTMENT}
                 element={
                   <TestAppointment
                     onSelect={() => {
@@ -379,7 +379,7 @@ export const Registration: React.FC = ({ children }) => {
                 }
               />
               <Route
-                path={`:${BookingSteps.ADD_PERSONS}`}
+                path={BookingSteps.ADD_PERSONS}
                 element={
                   <DataFormProvider>
                     <TestPersons emitFormValidation={setValidPersonData} />
