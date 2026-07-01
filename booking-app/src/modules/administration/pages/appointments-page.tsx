@@ -77,6 +77,8 @@ interface AppointmentGroupsProps {
   appointments: TestData[];
 }
 
+type AppointmentDateRange = [Date | null, Date | null];
+
 interface AppointmentsPageProps {}
 export const AppointmentsPage: React.FC<AppointmentsPageProps> = ({
   children,
@@ -124,7 +126,7 @@ export const AppointmentsPage: React.FC<AppointmentsPageProps> = ({
     return date ? addDays(date, amount) : undefined;
   };
 
-  const handleRrangeChange = (dateRange: any) => {
+  const handleRrangeChange = (dateRange: AppointmentDateRange) => {
     setDateFrom(dateRange[0]);
     setDateTo(dateRange[1]);
   };
@@ -158,10 +160,10 @@ export const AppointmentsPage: React.FC<AppointmentsPageProps> = ({
             mask="__.__.____"
             calendars={2}
             value={[dateFrom, dateTo]}
-            onChange={(newValue) => {
+            onChange={(newValue: AppointmentDateRange) => {
               handleRrangeChange(newValue);
             }}
-            renderInput={(startProps, endProps) => {
+            renderInput={(startProps: any, endProps: any) => {
               startProps.label = t('dateRange.startDate');
               endProps.label = t('dateRange.endDate');
               return (
