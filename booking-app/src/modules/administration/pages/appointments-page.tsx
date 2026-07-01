@@ -127,8 +127,14 @@ export const AppointmentsPage: React.FC<AppointmentsPageProps> = ({
   };
 
   const handleRrangeChange = (dateRange: AppointmentDateRange) => {
-    setDateFrom(dateRange[0]);
-    setDateTo(dateRange[1]);
+    const [startDate, endDate] = dateRange;
+
+    if (!startDate || !endDate) {
+      return;
+    }
+
+    setDateFrom(startDate);
+    setDateTo(endDate);
   };
 
   useEffect(() => {
