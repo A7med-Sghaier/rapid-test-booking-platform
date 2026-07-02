@@ -1,4 +1,4 @@
-import { urlBuilder } from '../../../utils/http/http-utils';
+import { apiFetch } from '../../../utils/http/http-utils';
 
 /*************************************************************
  * booking-app - agent-utils.ts
@@ -10,7 +10,7 @@ import { urlBuilder } from '../../../utils/http/http-utils';
  *************************************************************/
 
 export const addAgent = async (data: any) => {
-  return await fetch(urlBuilder('/admin/add-agent'), {
+  return await apiFetch('/admin/add-agent', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export const addAgent = async (data: any) => {
 };
 
 export const updateAgent = async (id: string, data: any) => {
-  return await fetch(urlBuilder('/admin/update-agent'), {
+  return await apiFetch('/admin/update-agent', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -40,15 +40,20 @@ export const updateAgent = async (id: string, data: any) => {
 };
 
 export const getAgents = async () => {
-  return await fetch(urlBuilder('/admin/agents'), {
-    method: 'Get',
+  return await apiFetch('/admin/agents', {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((response) => {
-    if (response.status < 200 || response.status >= 300) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
+  })
+    .then((response) => {
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.warn('Could not load agents', error);
+      return [];
+    });
 };
