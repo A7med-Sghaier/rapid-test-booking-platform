@@ -1,4 +1,4 @@
-import { urlBuilder, urlParamsBinder } from '../../../utils/http/http-utils';
+import { apiFetch } from '../../../utils/http/http-utils';
 import { TestData } from '../resources/interfaces';
 
 /*************************************************************
@@ -14,37 +14,43 @@ export const getAppointmentsByInterval = async (
   from: string,
   to: string
 ): Promise<TestData[]> => {
-  return await fetch(
-    urlParamsBinder(urlBuilder('/admin/appointments'), [
-      { key: 'from', val: from },
-      { key: 'to', val: to },
-    ]),
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((response) => {
-    if (response.status < 200 || response.status >= 300) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
-};
+  const query = `from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
 
-export const getClients = async (): Promise<TestData[]> => {
-  return await fetch(urlBuilder('admin/clients'), {
+  return await apiFetch(`/admin/appointments?${query}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((response) => {
-    if (response.status < 200 || response.status >= 300) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
+  })
+    .then((response) => {
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.warn('Could not load appointments', error);
+      return [];
+    });
+};
+
+export const getClients = async (): Promise<TestData[]> => {
+  return await apiFetch('/admin/clients', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.warn('Could not load clients', error);
+      return [];
+    });
 };
 
 export const checkInAppointment = async (
@@ -52,7 +58,7 @@ export const checkInAppointment = async (
   personUid: string,
   agentId: string
 ) => {
-  return await fetch(urlBuilder('/admin/appointments/checkIns'), {
+  return await apiFetch('/admin/appointments/checkIns', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -71,7 +77,7 @@ export const cancelAppointment = async (
   personUid: string[],
   agentId: string
 ) => {
-  return await fetch(urlBuilder('/admin/appointments/cancel'), {
+  return await apiFetch('/admin/appointments/cancel', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -86,7 +92,7 @@ export const cancelAppointment = async (
 };
 
 export const getPDFResult = async (personUid: string): Promise<any> => {
-  return await fetch(urlBuilder('/admin/appointments/pdf-result-for-print'), {
+  return await apiFetch('/admin/appointments/pdf-result-for-print', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
