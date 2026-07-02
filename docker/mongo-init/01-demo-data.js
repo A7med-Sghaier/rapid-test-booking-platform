@@ -35,9 +35,16 @@ const testTypes = {
 };
 
 const makeDate = (dayOffset, hour, minute = 0) => {
-  const date = new Date();
-  date.setDate(date.getDate() + dayOffset);
-  date.setHours(hour, minute, 0, 0);
+  const date = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate() + dayOffset,
+    hour,
+    minute,
+    0,
+    0
+  ));
+
   return date;
 };
 
@@ -108,22 +115,22 @@ database.settings.updateOne(
   { upsert: true }
 );
 
-const completedAt = makeDate(0, 10, 45).toISOString();
-const checkedInAt = makeDate(0, 9, 45).toISOString();
-const canceledAt = makeDate(2, 8, 15).toISOString();
+const checkedInAt = makeDate(0, 11, 15).toISOString();
+const completedAt = makeDate(0, 12, 20).toISOString();
+const canceledAt = makeDate(4, 8, 15).toISOString();
 
 const demoAppointments = [
-  appointment('DEMO-TODAY-0900', 0, 9, 0, testTypes.antigen, [
+  appointment('DEMO-TODAY-1000', 0, 10, 0, testTypes.antigen, [
     person('DEMO-PERSON-001', 'Lina', 'Weber', 'lina.weber@example.com', 'waiting'),
   ]),
-  appointment('DEMO-TODAY-1030', 0, 10, 30, testTypes.antigen, [
+  appointment('DEMO-TODAY-1130', 0, 11, 30, testTypes.antigen, [
     person('DEMO-PERSON-002', 'Jonas', 'Fischer', 'jonas.fischer@example.com', 'checkedIn', {
       checkedIn: true,
       checkedInAt,
       checkedInBy: 'demo-admin',
     }),
   ]),
-  appointment('DEMO-TODAY-1300', 0, 13, 0, testTypes.pcr, [
+  appointment('DEMO-TODAY-1430', 0, 14, 30, testTypes.pcr, [
     person('DEMO-PERSON-003', 'Mara', 'Schneider', 'mara.schneider@example.com', 'testPerformed', {
       checkedIn: true,
       checkedInAt,
@@ -140,17 +147,36 @@ const demoAppointments = [
   appointment('DEMO-TOMORROW-1440', 1, 14, 40, testTypes.pcr, [
     person('DEMO-PERSON-006', 'Felix', 'Hoffmann', 'felix.hoffmann@example.com', 'waiting'),
   ]),
-  appointment('DEMO-FUTURE-1620', 2, 16, 20, testTypes.antigen, [
+  appointment('DEMO-DAY2-1015', 2, 10, 15, testTypes.antigen, [
     person('DEMO-PERSON-007', 'Sara', 'Meyer', 'sara.meyer@example.com', 'waiting'),
   ]),
-  appointment('DEMO-CANCELED-1110', 3, 11, 10, testTypes.antigen, [
-    person('DEMO-PERSON-008', 'Paul', 'Wagner', 'paul.wagner@example.com', 'canceled', {
+  appointment('DEMO-DAY2-1620', 2, 16, 20, testTypes.pcr, [
+    person('DEMO-PERSON-008', 'Lea', 'Schulz', 'lea.schulz@example.com', 'waiting'),
+  ]),
+  appointment('DEMO-DAY3-0845', 3, 8, 45, testTypes.antigen, [
+    person('DEMO-PERSON-009', 'David', 'Becker', 'david.becker@example.com', 'waiting'),
+  ]),
+  appointment('DEMO-DAY3-1300', 3, 13, 0, testTypes.antigen, [
+    person('DEMO-PERSON-010', 'Amira', 'Koch', 'amira.koch@example.com', 'waiting'),
+  ]),
+  appointment('DEMO-CANCELED-DAY4-1110', 4, 11, 10, testTypes.antigen, [
+    person('DEMO-PERSON-011', 'Paul', 'Wagner', 'paul.wagner@example.com', 'canceled', {
       canceled: true,
       canceledAt,
       canceledBy: 'demo-admin',
     }),
   ]),
+  appointment('DEMO-DAY5-1535', 5, 15, 35, testTypes.pcr, [
+    person('DEMO-PERSON-012', 'Hanna', 'Wolf', 'hanna.wolf@example.com', 'waiting'),
+  ]),
+  appointment('DEMO-DAY6-0930', 6, 9, 30, testTypes.antigen, [
+    person('DEMO-PERSON-013', 'Tim', 'Braun', 'tim.braun@example.com', 'waiting'),
+  ]),
+  appointment('DEMO-DAY7-1200', 7, 12, 0, testTypes.antigen, [
+    person('DEMO-PERSON-014', 'Elena', 'Richter', 'elena.richter@example.com', 'waiting'),
+  ]),
 ];
 
 database.appointments.deleteMany({ appointmentUid: /^DEMO-/ });
 database.appointments.insertMany(demoAppointments);
+database.appointments.createIndex({ appointment: 1 });
