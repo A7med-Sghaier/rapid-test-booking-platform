@@ -1,4 +1,4 @@
-import { urlBuilder } from '../http/http-utils';
+import { apiFetch } from '../http/http-utils';
 
 /*************************************************************
  * booking-app - settings-utils.ts
@@ -10,7 +10,7 @@ import { urlBuilder } from '../http/http-utils';
  *************************************************************/
 
 export const saveSettings = async (data: any) => {
-  return await fetch(urlBuilder('/admin/settings'), {
+  return await apiFetch('/admin/settings', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -25,15 +25,20 @@ export const saveSettings = async (data: any) => {
 };
 
 export const getSettings = async () => {
-  return await fetch(urlBuilder('/admin/settings'), {
-    method: 'Get',
+  return await apiFetch('/admin/settings', {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((response) => {
-    if (response.status < 200 || response.status >= 300) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
+  })
+    .then((response) => {
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.warn('Could not load settings', error);
+      return [];
+    });
 };
