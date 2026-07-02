@@ -1,4 +1,4 @@
-import { urlBuilder } from '../../../utils/http/http-utils';
+import { apiFetch } from '../../../utils/http/http-utils';
 
 /*************************************************************
  * booking-app - statistics-utils.ts
@@ -10,15 +10,20 @@ import { urlBuilder } from '../../../utils/http/http-utils';
  *************************************************************/
 
 export const getAppointmentStatisticsByDate = async () => {
-  return await fetch(urlBuilder('/statistics/appointments-by-date'), {
-    method: 'Get',
+  return await apiFetch('/statistics/appointments-by-date', {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
-  }).then((response) => {
-    if (response.status < 200 || response.status >= 300) {
-      throw new Error(response.statusText);
-    }
-    return response.json();
-  });
+  })
+    .then((response) => {
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(response.statusText);
+      }
+      return response.json();
+    })
+    .catch((error) => {
+      console.warn('Could not load appointment statistics', error);
+      return [];
+    });
 };
