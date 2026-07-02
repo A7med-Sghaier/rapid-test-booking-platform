@@ -10,20 +10,36 @@ const API_HOST = process.env.REACT_APP_API_HOST || 'http://localhost';
 const API_PORT = process.env.REACT_APP_API_PORT || '3500';
 const API_PATH_PREFIX = process.env.REACT_APP_API_PATH_PREFIX || 'test-app-api';
 
+const normalizePath = (path: string) => {
+  return path.startsWith('/') ? path : '/' + path;
+};
+
 export const getApiBaseUrl = () => {
   return [API_HOST, ':', API_PORT].join('');
 };
 
 export const urlBuilder = (path: string) => {
-  if (!path.startsWith('/')) {
-    path = '/' + path;
-  }
+  path = normalizePath(path);
 
   if (API_PATH_PREFIX) {
     path = '/' + API_PATH_PREFIX + path;
   }
 
   return [getApiBaseUrl(), path].join('');
+};
+
+export const directUrlBuilder = (path: string) => {
+  return [getApiBaseUrl(), normalizePath(path)].join('');
+};
+
+export const apiFetch = async (path: string, init?: RequestInit) => {
+  const response = await fetch(urlBuilder(path), init);
+
+  if (response.status !== 404 || !API_PATH_PREFIX) {
+    return response;
+  }
+
+  return fetch(directUrlBuilder(path), init);
 };
 
 export const urlParamsBinder = (
