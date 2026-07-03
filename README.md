@@ -61,8 +61,8 @@ bash scripts/run-all-stacks.sh upd
 Open the app:
 
 ```text
-Frontend: http://localhost:3000
-API: http://localhost:3500/test-app-api
+Frontend: http://localhost:3010
+API: http://localhost:3510/test-app-api
 Mailpit inbox: http://localhost:8025
 MongoDB: localhost:27017
 ```
