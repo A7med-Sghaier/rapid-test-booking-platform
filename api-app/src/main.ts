@@ -1,86 +1,99 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
-import { NestExpressApplication } from '@nestjs/platform-express';
+import {
+  ExpressAdapter,
+  NestExpressApplication,
+} from '@nestjs/platform-express';
 import { AppConfigService } from './config/app-config/app-config.service';
 import { AdministrationService } from './administration/administration.service';
 import { StatisticsService } from './statistics/statistics.service';
+import express = require('express');
 
-function normalizeApiPath(url: string, apiPrefix: string): string {
+const apiPrefix = 'test-app-api';
+let administrationService: AdministrationService;
+let statisticsService: StatisticsService;
+
+function createExpressServer() {
+  const server = express();
   const prefix = `/${apiPrefix}`;
-  const path = url.split('?')[0];
 
-  if (path === prefix) {
-    return '/';
-  }
-
-  if (path.startsWith(`${prefix}/`)) {
-    return path.slice(prefix.length);
-  }
-
-  return path;
-}
-
-function registerReadCompatibilityMiddleware(
-  app: NestExpressApplication,
-  apiPrefix: string
-) {
-  const administrationService = app.get(AdministrationService);
-  const statisticsService = app.get(StatisticsService);
-
-  app.use(async (request, response, next) => {
-    if (request.method !== 'GET') {
-      next();
-      return;
+  server.use((request, _response, next) => {
+    if (request.url === prefix) {
+      request.url = '/';
     }
 
-    const path = normalizeApiPath(request.url, apiPrefix);
+    if (request.url.startsWith(`${prefix}/`)) {
+      request.url = request.url.slice(prefix.length);
+    }
 
+    next();
+  });
+
+  server.get('/admin/settings', async (_request, response, next) => {
     try {
-      if (path === '/admin/settings' || path === '/settings') {
-        response.json(await administrationService.getSettings());
-        return;
-      }
-
-      if (path === '/admin/appointments') {
-        response.json(await administrationService.findAppointments(request.query));
-        return;
-      }
-
-      if (path === '/admin/clients') {
-        response.json(await administrationService.getClients());
-        return;
-      }
-
-      if (path === '/admin/agents') {
-        response.json(await administrationService.getAgents());
-        return;
-      }
-
-      if (path === '/statistics/appointments-by-date') {
-        response.json(await statisticsService.getAppointmentsStatisticsByDate());
-        return;
-      }
-
-      if (path !== request.url) {
-        request.url = request.url.slice(`/${apiPrefix}`.length) || '/';
-      }
-
-      next();
+      response.json(await administrationService.getSettings());
     } catch (error) {
       next(error);
     }
   });
+
+  server.get('/settings', async (_request, response, next) => {
+    try {
+      response.json(await administrationService.getSettings());
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  server.get('/admin/appointments', async (request, response, next) => {
+    try {
+      response.json(await administrationService.findAppointments(request.query));
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  server.get('/admin/clients', async (_request, response, next) => {
+    try {
+      response.json(await administrationService.getClients());
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  server.get('/admin/agents', async (_request, response, next) => {
+    try {
+      response.json(await administrationService.getAgents());
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  server.get('/statistics/appointments-by-date', async (_request, response, next) => {
+    try {
+      response.json(await statisticsService.getAppointmentsStatisticsByDate());
+    } catch (error) {
+      next(error);
+    }
+  });
+
+  return server;
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const server = createExpressServer();
+  const app = await NestFactory.create<NestExpressApplication>(
+    AppModule,
+    new ExpressAdapter(server)
+  );
   const configService: AppConfigService = app.get(AppConfigService);
-  const apiPrefix = 'test-app-api';
   const port = configService.appPort;
 
+  administrationService = app.get(AdministrationService);
+  statisticsService = app.get(StatisticsService);
+
   app.enableCors();
-  registerReadCompatibilityMiddleware(app, apiPrefix);
 
   await app.listen(port, () => {
     Logger.log(`Listening at localhost: ${port}`);
