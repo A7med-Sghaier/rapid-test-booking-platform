@@ -6,72 +6,71 @@ import { AppConfigService } from './config/app-config/app-config.service';
 import { AdministrationService } from './administration/administration.service';
 import { StatisticsService } from './statistics/statistics.service';
 
-function prefixedPaths(apiPrefix: string, path: string): string[] {
-  return [path, `/${apiPrefix}${path}`];
+function normalizeApiPath(url: string, apiPrefix: string): string {
+  const prefix = `/${apiPrefix}`;
+  const path = url.split('?')[0];
+
+  if (path === prefix) {
+    return '/';
+  }
+
+  if (path.startsWith(`${prefix}/`)) {
+    return path.slice(prefix.length);
+  }
+
+  return path;
 }
 
-function registerReadCompatibilityRoutes(
+function registerReadCompatibilityMiddleware(
   app: NestExpressApplication,
   apiPrefix: string
 ) {
-  const server = app.getHttpAdapter().getInstance();
   const administrationService = app.get(AdministrationService);
   const statisticsService = app.get(StatisticsService);
 
-  server.get(
-    prefixedPaths(apiPrefix, '/admin/settings'),
-    async (_request, response, next) => {
-      try {
+  app.use(async (request, response, next) => {
+    if (request.method !== 'GET') {
+      next();
+      return;
+    }
+
+    const path = normalizeApiPath(request.url, apiPrefix);
+
+    try {
+      if (path === '/admin/settings' || path === '/settings') {
         response.json(await administrationService.getSettings());
-      } catch (error) {
-        next(error);
+        return;
       }
-    }
-  );
 
-  server.get(
-    prefixedPaths(apiPrefix, '/admin/appointments'),
-    async (request, response, next) => {
-      try {
+      if (path === '/admin/appointments') {
         response.json(await administrationService.findAppointments(request.query));
-      } catch (error) {
-        next(error);
+        return;
       }
-    }
-  );
 
-  server.get(
-    prefixedPaths(apiPrefix, '/admin/clients'),
-    async (_request, response, next) => {
-      try {
+      if (path === '/admin/clients') {
         response.json(await administrationService.getClients());
-      } catch (error) {
-        next(error);
+        return;
       }
-    }
-  );
 
-  server.get(
-    prefixedPaths(apiPrefix, '/admin/agents'),
-    async (_request, response, next) => {
-      try {
+      if (path === '/admin/agents') {
         response.json(await administrationService.getAgents());
-      } catch (error) {
-        next(error);
+        return;
       }
-    }
-  );
 
-  server.get(
-    prefixedPaths(apiPrefix, '/statistics/appointments-by-date'),
-    async (_request, response, next) => {
-      try {
+      if (path === '/statistics/appointments-by-date') {
         response.json(await statisticsService.getAppointmentsStatisticsByDate());
-      } catch (error) {
-        next(error);
+        return;
       }
+
+      if (path !== request.url) {
+        request.url = request.url.slice(`/${apiPrefix}`.length) || '/';
+      }
+
+      next();
+    } catch (error) {
+      next(error);
     }
-  );
+  });
 }
 
 async function bootstrap() {
@@ -81,20 +80,7 @@ async function bootstrap() {
   const port = configService.appPort;
 
   app.enableCors();
-  app.use((request, _response, next) => {
-    const prefix = `/${apiPrefix}`;
-
-    if (request.url === prefix) {
-      request.url = '/';
-    }
-
-    if (request.url.startsWith(`${prefix}/`)) {
-      request.url = request.url.slice(prefix.length);
-    }
-
-    next();
-  });
-  registerReadCompatibilityRoutes(app, apiPrefix);
+  registerReadCompatibilityMiddleware(app, apiPrefix);
 
   await app.listen(port, () => {
     Logger.log(`Listening at localhost: ${port}`);
