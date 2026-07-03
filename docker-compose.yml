@@ -35,7 +35,7 @@ services:
       mailpit:
         condition: service_started
     environment:
-      APP_DOMAIN: localhost:3000
+      APP_DOMAIN: localhost:3010
       NODE_PORT: 3500
       APP_NAME: Rapid Test Booking Platform
       NODE_ENV: development
@@ -59,7 +59,7 @@ services:
       CWA_CERT: local-demo-certificate
       CWA_PASS: local-demo-certificate-password
     ports:
-      - "3500:3500"
+      - "3510:3500"
 
   frontend:
     build:
@@ -71,13 +71,13 @@ services:
         condition: service_started
     environment:
       REACT_APP_API_HOST: http://localhost
-      REACT_APP_API_PORT: 3500
+      REACT_APP_API_PORT: 3510
       REACT_APP_API_PATH_PREFIX: test-app-api
       REACT_APP_TOKEN_NAME: rapid-test-token
       CHOKIDAR_USEPOLLING: "true"
       WDS_SOCKET_PORT: 0
     ports:
-      - "3000:3000"
+      - "3010:3000"
     stdin_open: true
     tty: true
 
