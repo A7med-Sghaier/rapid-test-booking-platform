@@ -48,7 +48,12 @@ function createExpressServer() {
 
   server.get('/admin/appointments', async (request, response, next) => {
     try {
-      response.json(await administrationService.findAppointments(request.query));
+      response.json(
+        await administrationService.findAppointments({
+          from: request.query.from as string,
+          to: request.query.to as string,
+        })
+      );
     } catch (error) {
       next(error);
     }
