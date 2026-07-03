@@ -3,6 +3,76 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppConfigService } from './config/app-config/app-config.service';
+import { AdministrationService } from './administration/administration.service';
+import { StatisticsService } from './statistics/statistics.service';
+
+function prefixedPaths(apiPrefix: string, path: string): string[] {
+  return [path, `/${apiPrefix}${path}`];
+}
+
+function registerReadCompatibilityRoutes(
+  app: NestExpressApplication,
+  apiPrefix: string
+) {
+  const server = app.getHttpAdapter().getInstance();
+  const administrationService = app.get(AdministrationService);
+  const statisticsService = app.get(StatisticsService);
+
+  server.get(
+    prefixedPaths(apiPrefix, '/admin/settings'),
+    async (_request, response, next) => {
+      try {
+        response.json(await administrationService.getSettings());
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  server.get(
+    prefixedPaths(apiPrefix, '/admin/appointments'),
+    async (request, response, next) => {
+      try {
+        response.json(await administrationService.findAppointments(request.query));
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  server.get(
+    prefixedPaths(apiPrefix, '/admin/clients'),
+    async (_request, response, next) => {
+      try {
+        response.json(await administrationService.getClients());
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  server.get(
+    prefixedPaths(apiPrefix, '/admin/agents'),
+    async (_request, response, next) => {
+      try {
+        response.json(await administrationService.getAgents());
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+
+  server.get(
+    prefixedPaths(apiPrefix, '/statistics/appointments-by-date'),
+    async (_request, response, next) => {
+      try {
+        response.json(await statisticsService.getAppointmentsStatisticsByDate());
+      } catch (error) {
+        next(error);
+      }
+    }
+  );
+}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -24,6 +94,7 @@ async function bootstrap() {
 
     next();
   });
+  registerReadCompatibilityRoutes(app, apiPrefix);
 
   await app.listen(port, () => {
     Logger.log(`Listening at localhost: ${port}`);
