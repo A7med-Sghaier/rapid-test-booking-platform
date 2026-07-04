@@ -160,8 +160,8 @@ export class BookTestAppointmentService {
         .map((person) => person.firstName + ' ' + person.secondName)
         .join(', '),
       center: {
-        name: 'Schnelltestzentrum ISARTOR',
-        address: 'Dachauer Str. 21, 80803 München',
+        name: 'Rapid Test Demo Center',
+        address: 'Demo Street 1, 10115 Berlin',
       },
     };
     return data;
