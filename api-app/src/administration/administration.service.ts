@@ -376,7 +376,7 @@ export class AdministrationService {
   }
 
   async addAgent(data): Promise<any> {
-    const randomPsw = Math.random().toString(36).slice(-8);
+    const randomPsw = crypto.randomBytes(4).toString('hex');
 
     return new Promise((resolve, reject) => {
       this.db

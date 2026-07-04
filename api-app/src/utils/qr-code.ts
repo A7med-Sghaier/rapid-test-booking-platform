@@ -7,6 +7,7 @@
  * copyright : all right reserved 2022
  *************************************************************/
 import { format, parse } from 'date-fns';
+import * as crypto from 'crypto';
 
 const QRCode = require('qrcode');
 
@@ -32,7 +33,7 @@ export const generateAppointmentID = (stringDate?) => {
   }
 
   return stringTempl.replace(/[xy]/g, (c) => {
-    const r = (Math.random() * 16) | 0;
+    const r = crypto.randomInt(0, 16);
     const v = c == 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(24);
   });
