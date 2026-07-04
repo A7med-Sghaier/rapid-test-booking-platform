@@ -4,6 +4,42 @@ Full-stack booking and administration platform for rapid test appointments. The 
 
 This repository is being prepared as a portfolio-safe version of a personal/freelance project. Production credentials, real appointment data, and private deployment details should stay out of the repository.
 
+## Demo Preview
+
+The screenshots below use safe local demo data and show the public booking flow plus the operational admin workspace.
+
+### Client Booking Flow
+
+![Client booking landing page](docs/images/client-booking-landing.png)
+
+![Appointment date and time selection](docs/images/client-booking-date-selection.png)
+
+![Client personal details form](docs/images/client-booking-person-details.png)
+
+![Booking confirmation review](docs/images/client-booking-confirmation.png)
+
+![Successful booking with QR confirmation](docs/images/client-booking-success.png)
+
+### Admin Dashboard
+
+![Admin login screen](docs/images/admin-login.png)
+
+![Admin dashboard overview](docs/images/admin-dashboard-overview.png)
+
+![Today queue with waiting, checked-in, and completed tests](docs/images/admin-today-queue.png)
+
+![Appointments calendar view](docs/images/admin-appointments-calendar.png)
+
+![Test persons administration view](docs/images/admin-test-persons.png)
+
+![Archive view](docs/images/admin-archive.png)
+
+![Agent management view](docs/images/admin-agents.png)
+
+![Master data settings view](docs/images/admin-settings-master-data.png)
+
+![Reports and audit view](docs/images/admin-reports-audit.png)
+
 ## Portfolio Highlights
 
 - Built a multi-step appointment booking flow with React, TypeScript, Material UI, validation, localization, and responsive form components.
