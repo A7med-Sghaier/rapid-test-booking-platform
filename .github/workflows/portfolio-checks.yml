@@ -16,14 +16,13 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Set up backend Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "16"
-          cache: yarn
-          cache-dependency-path: |
-            api-app/yarn.lock
-            booking-app/yarn.lock
+
+      - name: Install backend Yarn Classic
+        run: npm install -g yarn@1.22.22
 
       - name: Install backend dependencies
         working-directory: api-app
@@ -33,13 +32,21 @@ jobs:
         working-directory: api-app
         run: yarn build
 
+      - name: Set up frontend Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Enable frontend Corepack
+        run: corepack enable
+
       - name: Install frontend dependencies
         working-directory: booking-app
-        run: yarn install --frozen-lockfile
+        run: yarn install --immutable
 
       - name: Build frontend
         working-directory: booking-app
-        run: CI=false yarn build
+        run: yarn build
 
       - name: Check for sensitive file names
         run: |
