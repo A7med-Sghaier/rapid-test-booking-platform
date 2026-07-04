@@ -2,7 +2,7 @@
 
 Full-stack booking and administration platform for rapid test appointments. The project combines a React/TypeScript booking UI with a NestJS API for appointment workflows, administration, authentication, QR code generation, PDF documents, email notifications, realtime events, and statistics.
 
-This repository is being prepared as a portfolio-safe version of a personal/freelance project. Production credentials, real appointment data, and private deployment details should stay out of the repository.
+This is a portfolio-safe version of a personal/freelance project. Production credentials, real appointment data, and private deployment details must stay out of the repository.
 
 ## Demo Preview
 
@@ -47,13 +47,13 @@ The screenshots below use safe local demo data and show the public booking flow 
 - Developed a NestJS backend with JWT authentication, MongoDB-backed persistence, email notifications, PDF generation, QR code helpers, and WebSocket events.
 - Added environment-based configuration for database, mail, auth, encryption, and integration settings.
 - Included Docker-based local startup for the API, frontend, MongoDB, demo seed data, and local email capture.
-- Included lint, format, build, and test scaffolding for both frontend and backend packages.
+- Included CI checks for backend build, frontend build, and obvious secret/file safety issues.
 
 ## Tech Stack
 
-- Frontend: React 17, TypeScript, Material UI, Bootstrap, Chart.js, i18next, socket.io client
+- Frontend: React 18, TypeScript, Vite, Material UI, Radix UI, Tailwind CSS, Recharts, React Router
 - Backend: NestJS 8, TypeScript, MongoDB, Passport, JWT, Mailer, PDFKit, QR code generation, WebSockets
-- Tooling: Docker Compose, Yarn, Jest, ESLint, Prettier, GitHub Actions
+- Tooling: Docker Compose, Yarn Classic, Yarn Berry/Corepack, Jest, Vitest, ESLint, Prettier, GitHub Actions
 
 ## Repository Structure
 
@@ -124,7 +124,7 @@ bash scripts/run-all-stacks.sh clean
 
 ## Manual Local Setup
 
-Use this only if you want to run packages outside Docker. The original dependency set works best with Node.js 16 and Yarn Classic 1.x.
+Use this only if you want to run packages outside Docker. The Docker setup is the supported portfolio demo path because it pins the backend and frontend runtime differences for you.
 
 1. Create backend environment configuration:
 
@@ -132,7 +132,7 @@ Use this only if you want to run packages outside Docker. The original dependenc
 cp .env.example api-app/.env
 ```
 
-2. Install backend dependencies:
+2. Install backend dependencies with Node.js 16 and Yarn Classic:
 
 ```bash
 cd api-app
@@ -140,19 +140,11 @@ yarn install
 yarn start:dev
 ```
 
-3. Create frontend environment configuration in `booking-app/.env`:
-
-```env
-REACT_APP_API_HOST=http://localhost
-REACT_APP_API_PORT=3500
-REACT_APP_API_PATH_PREFIX=test-app-api
-REACT_APP_TOKEN_NAME=rapid-test-token
-```
-
-4. Install frontend dependencies:
+3. Install frontend dependencies with Node.js 20 and Corepack/Yarn Berry:
 
 ```bash
 cd ../booking-app
+corepack enable
 yarn install
 yarn start
 ```
@@ -174,7 +166,7 @@ Frontend:
 cd booking-app
 yarn build
 yarn test
-yarn lint
+yarn typecheck
 ```
 
 ## Verification
@@ -195,12 +187,7 @@ Do not commit real credentials, real appointment records, customer data, test re
 
 ## Current Portfolio Status
 
-This repository is private while it is being cleaned and documented. Before making it public, verify that:
-
-- no real credentials or private infrastructure details remain
-- no real appointment, patient, customer, or test-result data is included
-- setup instructions are accurate from a clean checkout
-- screenshots or demo material are generated from safe local data
+The repository has Docker setup, safe demo seed data, screenshot previews, CI build checks, and public-release safety notes. Before switching visibility to public, Ahmed should make one final manual review of screenshots and ownership boundaries.
 
 ## Portfolio Summary
 
