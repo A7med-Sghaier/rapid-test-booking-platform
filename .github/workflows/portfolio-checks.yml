@@ -63,11 +63,13 @@ jobs:
         run: |
           if grep -RInE '(Wasser13!|rw0b73\.webhosting\.systems|yeta@qontrola\.com|AKIA[0-9A-Z]{16}|BEGIN (RSA )?PRIVATE KEY|mongodb://.*:.*@)' . \
             --exclude-dir=.git \
+            --exclude-dir=.yarn \
             --exclude-dir=node_modules \
             --exclude-dir=build \
             --exclude-dir=dist \
             --exclude='*.md' \
             --exclude='.env.example' \
+            --exclude='.pnp.*' \
             --exclude=portfolio-checks.yml; then
             echo "Potential secret or private infrastructure reference found."
             exit 1
