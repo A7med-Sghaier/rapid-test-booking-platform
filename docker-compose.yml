@@ -47,8 +47,8 @@ services:
       MAIL_HOST: mailpit
       MAIL_PORT: 1025
       MAIL_SECURE: "false"
-      MAIL_USER: demo@example.com
-      MAIL_PWD: demo-password
+      MAIL_USER: local-mailpit-user
+      MAIL_PWD: local-mailpit-token
       JWT_SECRET: local-docker-jwt-secret
       CRYPTO_KEY: local-docker-crypto-key
       COLLECTION_LOGIN: logins
@@ -57,7 +57,7 @@ services:
       CWA_HOST: https://example.com
       CWA_WRU_KEY: local-demo-wru-key
       CWA_CERT: local-demo-certificate
-      CWA_PASS: local-demo-certificate-password
+      CWA_PASS: local-demo-certificate-token
     ports:
       - "3510:3500"
 
