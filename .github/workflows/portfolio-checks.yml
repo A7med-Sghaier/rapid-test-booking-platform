@@ -26,7 +26,7 @@ jobs:
 
       - name: Install backend dependencies
         working-directory: api-app
-        run: yarn install --frozen-lockfile
+        run: yarn install --non-interactive --ignore-engines
 
       - name: Build backend
         working-directory: api-app
