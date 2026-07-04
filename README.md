@@ -4,6 +4,36 @@ Full-stack booking and administration platform for rapid test appointments. The 
 
 This is a portfolio-safe version of a personal/freelance project. Production credentials, real appointment data, and private deployment details must stay out of the repository.
 
+## Case Study
+
+Rapid Test Booking Platform models the end-to-end workflow of a medical appointment operation: public users book appointments, staff manage the daily queue, agents check people in, and administrators handle settings, test persons, reports, and result workflows.
+
+The portfolio focus is full-stack product delivery: a React/TypeScript frontend, a NestJS/MongoDB backend, Dockerized local infrastructure, safe demo seed data, local email capture, QR/PDF generation, and CI checks that keep the public repository buildable and safe to inspect.
+
+Key users:
+
+- Clients booking a rapid-test appointment from a public flow.
+- Test-center agents handling check-in and appointment status changes.
+- Administrators managing appointments, agents, settings, reports, and operational data.
+
+Key engineering decisions:
+
+- Docker Compose provides the supported demo path and avoids local Node/Yarn version drift.
+- Mailpit replaces real SMTP so email workflows are visible without exposing credentials.
+- MongoDB seed data uses fake, relative-date records so the dashboard stays useful after every clean start.
+- GitHub Actions builds backend and frontend and scans for obvious committed secret patterns.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  Client[React Booking/Admin UI] --> API[NestJS API]
+  API --> Mongo[(MongoDB)]
+  API --> Mailpit[Mailpit Email Inbox]
+  API --> PDF[QR and PDF Generation]
+  API --> Events[WebSocket Events]
+```
+
 ## Demo Preview
 
 The screenshots below use safe local demo data and show the public booking flow plus the operational admin workspace.
@@ -70,6 +100,7 @@ SECURITY.md              Public-release and secret handling notes
 ## Documentation
 
 - [Architecture](docs/architecture.md): system overview, frontend/backend responsibilities, data flow, and portfolio value.
+- [API overview](docs/api-overview.md): recruiter-friendly summary of the main backend routes and workflows.
 - [Public release checklist](docs/public-release-checklist.md): safety checks before making the repository public.
 - [Demo and screenshot plan](docs/demo-plan.md): safe screenshot plan for the README and portfolio profile.
 
@@ -108,6 +139,13 @@ Demo admin login:
 ```text
 Username: admin
 Password: admin123
+```
+
+Demo data:
+
+```text
+MongoDB is seeded from docker/mongo-init with safe local demo settings, agents, and current/upcoming appointments.
+Emails are captured locally in Mailpit instead of being sent through a real SMTP account.
 ```
 
 Useful stack commands:
