@@ -209,7 +209,7 @@ yarn typecheck
 
 ## Verification
 
-The current GitHub Actions workflow installs dependencies, builds the backend, builds the frontend, and scans for obvious committed secrets. The legacy generated NestJS spec files still need dependency-injection cleanup before backend unit tests become a reliable CI gate.
+The current GitHub Actions workflow installs dependencies, builds the backend, builds the frontend, runs the frontend API URL test, and scans for obvious committed secrets. The legacy generated NestJS spec files still need dependency-injection cleanup before backend unit tests become a reliable CI gate.
 
 ## Configuration
 
@@ -223,9 +223,28 @@ All sensitive runtime values should be provided through environment variables. S
 
 Do not commit real credentials, real appointment records, customer data, test results, certificates, or deployment hostnames.
 
+## Roadmap And Tradeoffs
+
+This portfolio version keeps the original product scope visible while making the repository safe to inspect publicly.
+
+Current tradeoffs:
+
+- Backend unit tests are not a strict CI gate yet because older generated NestJS specs need dependency-injection cleanup.
+- Docker is the supported demo path because the backend and frontend use different Node/Yarn generations.
+- Authentication is suitable for local demo workflows; a production release would harden role checks, password storage, audit logging, and secret management.
+- Corona-Warn-App integration is represented with placeholder configuration only.
+
+Potential next improvements:
+
+- Add Swagger/OpenAPI documentation.
+- Add Playwright smoke tests for booking and admin login.
+- Harden role-based access control.
+- Replace legacy MD5 password handling with a modern password hash.
+- Add structured audit logs for appointment status changes.
+
 ## Current Portfolio Status
 
-The repository has Docker setup, safe demo seed data, screenshot previews, CI build checks, and public-release safety notes. Before switching visibility to public, Ahmed should make one final manual review of screenshots and ownership boundaries.
+The repository has Docker setup, safe demo seed data, screenshot previews, CI build checks, frontend test coverage for API URL generation, and public-release safety notes. Before switching visibility to public, Ahmed should make one final manual review of screenshots and ownership boundaries.
 
 ## Portfolio Summary
 
