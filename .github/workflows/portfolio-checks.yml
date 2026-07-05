@@ -48,6 +48,10 @@ jobs:
         working-directory: booking-app
         run: yarn build
 
+      - name: Test frontend
+        working-directory: booking-app
+        run: yarn test
+
       - name: Check for sensitive file names
         run: |
           if find . -type f \( -name '.env' -o -name '*.pem' -o -name '*.key' -o -name 'id_rsa' -o -name 'credentials' \) \
