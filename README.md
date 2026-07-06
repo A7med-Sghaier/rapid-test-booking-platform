@@ -222,6 +222,15 @@ yarn test
 yarn typecheck
 ```
 
+The frontend design-system and feature components are developed and documented
+in isolation with Storybook (stories are co-located as `*.stories.tsx`):
+
+```bash
+cd booking-app
+yarn storybook         # run Storybook at http://localhost:6006
+yarn build-storybook   # build the static Storybook site
+```
+
 ## Verification
 
 The current GitHub Actions workflow installs dependencies, builds the backend, builds the frontend, runs the frontend API URL test, and scans for obvious committed secrets. The legacy generated NestJS spec files still need dependency-injection cleanup before backend unit tests become a reliable CI gate.
