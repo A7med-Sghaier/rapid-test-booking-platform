@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Toaster } from "sonner";
-import { AdminApp } from "./components/admin-app";
-import { PublicApp } from "./components/public-app";
+import { AdminApp } from "./features/admin/admin-app";
+import { PublicApp } from "./features/public/public-app";
 import { VerifyPage } from "./components/verify";
 import { ErrorBoundary } from "./components/error-boundary";
 import { BackendSync } from "./lib/backend-sync";
