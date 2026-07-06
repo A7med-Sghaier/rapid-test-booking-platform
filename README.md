@@ -148,17 +148,32 @@ MongoDB is seeded from docker/mongo-init with safe local demo settings, agents, 
 Emails are captured locally in Mailpit instead of being sent through a real SMTP account.
 ```
 
+The seed script in `docker/mongo-init` only runs automatically the first time
+MongoDB starts on an empty data volume. If your `mongo-data` volume already
+existed (for example from an earlier run), the seed is skipped and the demo
+data will be missing. Re-seed the running database at any time with:
+
+```bash
+bash scripts/run-all-stacks.sh seed
+```
+
+The seed file is idempotent (it clears its own demo documents before
+re-inserting), so it is safe to run repeatedly. Alternatively, `clean` wipes the
+volume so the demo data is recreated automatically on the next startup.
+
 Useful stack commands:
 
 ```bash
 bash scripts/run-all-stacks.sh ps
 bash scripts/run-all-stacks.sh logs
 bash scripts/run-all-stacks.sh logs api
+bash scripts/run-all-stacks.sh seed
 bash scripts/run-all-stacks.sh down
 bash scripts/run-all-stacks.sh clean
 ```
 
-`clean` removes the Docker volume, so MongoDB demo data will be recreated on the next startup.
+`seed` re-seeds the running MongoDB without touching the volume. `clean` removes
+the Docker volume, so MongoDB demo data will be recreated on the next startup.
 
 ## Manual Local Setup
 
