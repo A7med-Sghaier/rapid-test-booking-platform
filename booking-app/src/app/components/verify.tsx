@@ -1,6 +1,6 @@
 import { BadgeCheck, ShieldCheck, ShieldX } from "lucide-react";
 import { testTypeById } from "./data";
-import { ResultBadge } from "./primitives";
+import { ResultBadge } from "../shared";
 import { useFlux } from "../store/flux-store";
 
 export function VerifyPage({ id, onHome }: { id: string; onHome: () => void }) {
