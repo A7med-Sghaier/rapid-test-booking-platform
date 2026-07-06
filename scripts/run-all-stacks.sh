@@ -3,6 +3,9 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 COMPOSE_FILE="$ROOT_DIR/docker-compose.yml"
+MONGO_CONTAINER="rapid-test-mongo"
+MONGO_DATABASE="rapid-test-booking"
+SEED_FILE="$ROOT_DIR/docker/mongo-init/01-demo-data.js"
 
 if command -v docker-compose >/dev/null 2>&1; then
   COMPOSE=(docker-compose -f "$COMPOSE_FILE")
@@ -41,6 +44,18 @@ case "$command" in
     "${COMPOSE[@]}" down -v --remove-orphans
     remove_project_containers
     ;;
+  seed)
+    # Re-seed demo data into the running MongoDB without wiping the volume.
+    # The docker-entrypoint init scripts only run on a fresh volume, so use
+    # this after the volume already exists (the seed file is idempotent).
+    if ! docker ps --format '{{.Names}}' | grep -qx "$MONGO_CONTAINER"; then
+      echo "$MONGO_CONTAINER is not running. Start the stack first: $0 upd"
+      exit 1
+    fi
+    echo "Seeding demo data into MongoDB ($MONGO_DATABASE)..."
+    docker exec -i -e "MONGO_INITDB_DATABASE=$MONGO_DATABASE" "$MONGO_CONTAINER" \
+      mongosh --quiet <"$SEED_FILE"
+    ;;
   logs)
     "${COMPOSE[@]}" logs -f "${@:2}"
     ;;
@@ -51,7 +66,7 @@ case "$command" in
     "${COMPOSE[@]}" restart "${@:2}"
     ;;
   *)
-    echo "Usage: $0 {up|up-detached|upd|down|clean|logs|ps|restart}"
+    echo "Usage: $0 {up|up-detached|upd|down|clean|seed|logs|ps|restart}"
     exit 1
     ;;
 esac
