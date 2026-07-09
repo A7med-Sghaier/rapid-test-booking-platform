@@ -3,21 +3,23 @@
 [![Portfolio checks](https://github.com/A7med-Sghaier/rapid-test-booking-platform/actions/workflows/portfolio-checks.yml/badge.svg)](https://github.com/A7med-Sghaier/rapid-test-booking-platform/actions/workflows/portfolio-checks.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Full-stack booking and administration platform for rapid test appointments. The project combines a React/TypeScript booking UI with a NestJS API for appointment workflows, administration, authentication, QR code generation, PDF documents, email notifications, realtime events, and statistics.
+Full-stack booking and administration platform built for **COVID-19 rapid-test centers** during the pandemic. It combines a React/TypeScript booking UI with a NestJS API for appointment workflows, administration, authentication, QR code generation, PDF test certificates, email notifications, realtime events, and statistics.
 
-This is a portfolio-safe version of a personal/freelance project. Production credentials, real appointment data, and private deployment details must stay out of the repository.
+This is a portfolio-safe version of a personal/freelance project originally deployed for rapid antigen test centers. Production credentials, real appointment data, and private deployment details must stay out of the repository.
 
 ## Case Study
 
-Rapid Test Booking Platform models the end-to-end workflow of a medical appointment operation: public users book appointments, staff manage the daily queue, agents check people in, and administrators handle settings, test persons, reports, and result workflows.
+Rapid Test Booking Platform models the end-to-end workflow of a COVID-19 rapid-test center: members of the public book a test slot, staff manage the daily queue, agents check people in and record antigen test results, and administrators handle center settings, test persons, reports, result certificates, and health-office/Corona-Warn-App reporting.
+
+It was built to handle the operational reality of a busy test site during the pandemic — high booking volume, fast walk-in check-in, same-day result delivery with a downloadable certificate, and the reporting obligations required of German test centers.
 
 The portfolio focus is full-stack product delivery: a React/TypeScript frontend, a NestJS/MongoDB backend, Dockerized local infrastructure, safe demo seed data, local email capture, QR/PDF generation, and CI checks that keep the public repository buildable and safe to inspect.
 
 Key users:
 
-- Clients booking a rapid-test appointment from a public flow.
-- Test-center agents handling check-in and appointment status changes.
-- Administrators managing appointments, agents, settings, reports, and operational data.
+- Members of the public booking a COVID-19 rapid-test appointment from a public flow.
+- Test-center agents handling check-in, antigen test results, and appointment status changes.
+- Administrators managing appointments, agents, center settings, reports, and operational data.
 
 Key engineering decisions:
 
@@ -75,9 +77,9 @@ The screenshots below use safe local demo data and show the public booking flow 
 
 ## Portfolio Highlights
 
-- Built a multi-step appointment booking flow with React, TypeScript, Material UI, validation, localization, and responsive form components.
-- Implemented an administration dashboard for appointments, agents, settings, statistics, check-in and result workflows.
-- Developed a NestJS backend with JWT authentication, MongoDB-backed persistence, email notifications, PDF generation, QR code helpers, and WebSocket events.
+- Built a multi-step COVID-19 rapid-test booking flow with React, TypeScript, Material UI, validation, localization, and responsive form components.
+- Implemented an administration dashboard for appointments, agents, center settings, statistics, check-in and antigen-result workflows.
+- Developed a NestJS backend with JWT authentication, MongoDB-backed persistence, email notifications, PDF test-certificate generation, QR code helpers, and WebSocket events.
 - Added environment-based configuration for database, mail, auth, encryption, and integration settings.
 - Included Docker-based local startup for the API, frontend, MongoDB, demo seed data, and local email capture.
 - Included CI checks for backend build, frontend build, and obvious secret/file safety issues.
@@ -282,7 +284,7 @@ The repository has Docker setup, safe demo seed data, screenshot previews, CI bu
 
 ## Portfolio Summary
 
-Rapid Test Booking Platform demonstrates full-stack product delivery across React, TypeScript, NestJS, MongoDB, authentication, operational dashboards, document generation, QR workflows, email notifications, and realtime app events.
+Rapid Test Booking Platform demonstrates full-stack product delivery for a real-world COVID-19 rapid-test operation, across React, TypeScript, NestJS, MongoDB, authentication, operational dashboards, test-certificate generation, QR workflows, email notifications, and realtime app events.
 
 ## License
 
