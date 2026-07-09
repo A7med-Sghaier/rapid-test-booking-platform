@@ -1,5 +1,8 @@
 # Rapid Test Booking Platform
 
+[![Portfolio checks](https://github.com/A7med-Sghaier/rapid-test-booking-platform/actions/workflows/portfolio-checks.yml/badge.svg)](https://github.com/A7med-Sghaier/rapid-test-booking-platform/actions/workflows/portfolio-checks.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Full-stack booking and administration platform for rapid test appointments. The project combines a React/TypeScript booking UI with a NestJS API for appointment workflows, administration, authentication, QR code generation, PDF documents, email notifications, realtime events, and statistics.
 
 This is a portfolio-safe version of a personal/freelance project. Production credentials, real appointment data, and private deployment details must stay out of the repository.
@@ -130,6 +133,7 @@ Open the app:
 ```text
 Frontend: http://localhost:3010
 API: http://localhost:3510/test-app-api
+API docs (Swagger): http://localhost:3510/test-app-api/docs
 Mailpit inbox: http://localhost:8025
 MongoDB: localhost:27017
 ```
@@ -218,8 +222,10 @@ Frontend:
 ```bash
 cd booking-app
 yarn build
-yarn test
+yarn test                       # Vitest unit tests
 yarn typecheck
+yarn playwright install chromium # one-time browser download
+yarn e2e                        # Playwright smoke tests (booking + admin login)
 ```
 
 The frontend design-system and feature components are developed and documented
@@ -233,7 +239,7 @@ yarn build-storybook   # build the static Storybook site
 
 ## Verification
 
-The current GitHub Actions workflow installs dependencies, builds the backend, builds the frontend, runs the frontend API URL test, and scans for obvious committed secrets. The legacy generated NestJS spec files still need dependency-injection cleanup before backend unit tests become a reliable CI gate.
+The GitHub Actions workflow installs dependencies, builds the backend, runs the full backend unit-test suite (`yarn test`), builds the frontend, runs the frontend Vitest suite, runs the Playwright smoke tests (public booking landing and admin sign-in), and scans for obvious committed secrets.
 
 ## Configuration
 
@@ -253,18 +259,22 @@ This portfolio version keeps the original product scope visible while making the
 
 Current tradeoffs:
 
-- Backend unit tests are not a strict CI gate yet because older generated NestJS specs need dependency-injection cleanup.
 - Docker is the supported demo path because the backend and frontend use different Node/Yarn generations.
-- Authentication is suitable for local demo workflows; a production release would harden role checks, password storage, audit logging, and secret management.
+- Authentication is hardened for the demo (bcrypt, JWT bearer auth, role guards); a production release would still layer on refresh tokens, rate limiting, and centralised secret management.
 - Corona-Warn-App integration is represented with placeholder configuration only.
+
+Recently added:
+
+- Passwords are hashed with bcrypt (with a transparent fallback for legacy MD5 records) instead of raw MD5.
+- Role-based access control: admin/statistics endpoints require a JWT bearer token, with agent-vs-admin role checks; the frontend attaches the stored token to API calls.
+- Structured audit logs for appointment status changes (check-in, cancellation, result emission) written to an `auditLogs` collection.
+- AES key derivation moved from SHA-1 to SHA-256 with a fresh per-request IV.
+- Swagger/OpenAPI documentation is served at `/test-app-api/docs`.
+- The full backend unit-test suite and Playwright smoke tests (public booking landing and admin sign-in) run in CI.
 
 Potential next improvements:
 
-- Add Swagger/OpenAPI documentation.
-- Add Playwright smoke tests for booking and admin login.
-- Harden role-based access control.
-- Replace legacy MD5 password handling with a modern password hash.
-- Add structured audit logs for appointment status changes.
+- Expand unit tests beyond the current smoke coverage into behaviour-level backend and frontend suites.
 
 ## Current Portfolio Status
 
@@ -273,3 +283,7 @@ The repository has Docker setup, safe demo seed data, screenshot previews, CI bu
 ## Portfolio Summary
 
 Rapid Test Booking Platform demonstrates full-stack product delivery across React, TypeScript, NestJS, MongoDB, authentication, operational dashboards, document generation, QR workflows, email notifications, and realtime app events.
+
+## License
+
+Released under the [MIT License](LICENSE).
