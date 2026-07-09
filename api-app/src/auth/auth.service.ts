@@ -3,6 +3,7 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { Db } from 'mongodb';
 import { JwtService } from '@nestjs/jwt';
 import { AppConfigService } from '../config/app-config/app-config.service';
+import * as bcrypt from 'bcryptjs';
 import * as crypto from 'crypto';
 
 @Injectable()
@@ -13,26 +14,49 @@ export class AuthService {
     @Inject('MONGO-PROVIDER') private db: Db
   ) {}
 
-  async validateClient(username: string, pass: string): Promise<any> {
+  async validateClient(username: string, plainPassword: string): Promise<any> {
     return this.db
       .collection(this.appConfig.loginCollection)
       .findOne(
         { $or: [{ userName: username }, { email: username }] },
         { projection: { repeatPassword: 0 } }
       )
-      .then((user) => {
-        if (user && user.psw === pass && user.active !== false) {
+      .then(async (user) => {
+        if (
+          user &&
+          user.active !== false &&
+          (await this.verifyPassword(plainPassword, user.psw))
+        ) {
           return user;
         }
         return null;
       });
   }
 
+  /**
+   * Verifies a plaintext password against the stored hash. Prefers bcrypt and
+   * falls back to the legacy MD5 scheme so pre-migration accounts keep working
+   * until their next password change.
+   */
+  private async verifyPassword(
+    plainPassword: string,
+    storedHash: string
+  ): Promise<boolean> {
+    if (!plainPassword || !storedHash) {
+      return false;
+    }
+    if (storedHash.startsWith('$2')) {
+      return bcrypt.compare(plainPassword, storedHash);
+    }
+    const legacyHash = crypto
+      .createHash('md5')
+      .update(plainPassword)
+      .digest('hex');
+    return storedHash === legacyHash;
+  }
+
   async login(user: any): Promise<any> {
-    return this.validateClient(
-      user.userName,
-      crypto.createHash('md5').update(user.password).digest('hex')
-    ).then((result) => {
+    return this.validateClient(user.userName, user.password).then((result) => {
       if (result !== null) {
         const payload = {
           username: result.userName,

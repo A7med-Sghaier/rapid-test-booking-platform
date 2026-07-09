@@ -39,7 +39,8 @@ appDb.logins.insertMany([
     email: 'admin@example.com',
     firstName: 'Demo',
     secondName: 'Admin',
-    psw: '0192023a7bbd73250516f069df18b500',
+    // bcrypt hash of the demo password 'admin123'
+    psw: '$2a$10$S4k7Z.KSx6DZPCq.qXb.b.OZTKvYlDuAbhJkaa2YIlWZE1SfhmEY2',
     roles: ['admin'],
     active: true,
     createdAt: now,
@@ -50,7 +51,8 @@ appDb.logins.insertMany([
     email: 'agent@example.com',
     firstName: 'Demo',
     secondName: 'Agent',
-    psw: '0192023a7bbd73250516f069df18b500',
+    // bcrypt hash of the demo password 'admin123'
+    psw: '$2a$10$ks8Q2S0rtBQnc1Obc1w4POwYH9kCKlEelxetRTBKaw8bwm0mH7e0i',
     roles: ['agent'],
     active: true,
     createdAt: now,

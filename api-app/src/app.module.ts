@@ -26,7 +26,7 @@ import { StatisticsModule } from './statistics/statistics.module';
       imports: [AppConfigModule],
       useFactory: (appConf: AppConfigService) => ({
         secret: appConf.authJwtSecret,
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '8h' },
       }),
       inject: [AppConfigService],
     }),

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { AppConfigService } from '../config/app-config/app-config.service';
 import { Db, ObjectId, ObjectID } from 'mongodb';
 import { SocketEventsService } from '../sokets-events/socket-events.service';
@@ -7,6 +7,7 @@ import { generateTestResultPDF } from '../utils/pdf-utils';
 import { MailService } from '../config/mail-config/mail.service';
 import { format, getUnixTime, parseISO } from 'date-fns';
 import { de } from 'date-fns/locale';
+import * as bcrypt from 'bcryptjs';
 import * as crypto from 'crypto';
 import { btoa } from 'buffer';
 import {
@@ -21,12 +22,42 @@ import { buildCwaHash } from '../utils/cwa-utils';
 
 @Injectable()
 export class AdministrationService {
+  private readonly logger = new Logger(AdministrationService.name);
+
   constructor(
     private appConfig: AppConfigService,
     private mailService: MailService,
     private socketEventsService: SocketEventsService,
     @Inject('MONGO-PROVIDER') private db: Db
   ) {}
+
+  /**
+   * Records an appointment status change to the `auditLogs` collection and the
+   * application log so operational actions (check-in, cancellation, result
+   * emission) stay traceable to the agent who performed them.
+   */
+  private async recordStatusChange(details: {
+    action: string;
+    status: string;
+    appointmentUid: string;
+    personUid: string | string[];
+    agentId: string;
+  }): Promise<void> {
+    const entry = {
+      type: 'appointment-status-change',
+      ...details,
+      timestamp: new Date().toISOString(),
+    };
+    this.logger.log(JSON.stringify(entry));
+    try {
+      await this.db.collection('auditLogs').insertOne(entry);
+    } catch (error) {
+      this.logger.error(
+        `Failed to persist audit log for ${details.action}`,
+        error as Error
+      );
+    }
+  }
 
   async findAppointments({
     from,
@@ -88,6 +119,13 @@ export class AdministrationService {
               'appointments-update',
               'appointment-modified'
             );
+            void this.recordStatusChange({
+              action: 'check-in',
+              status: 'checkedIn',
+              appointmentUid,
+              personUid,
+              agentId,
+            });
           }
           resolve(result);
         });
@@ -193,6 +231,13 @@ export class AdministrationService {
               'appointments-update',
               'appointment-canceled'
             );
+            void this.recordStatusChange({
+              action: 'cancel',
+              status: 'canceled',
+              appointmentUid,
+              personUid,
+              agentId,
+            });
           }
           if (agentId === 'user') {
             this.db
@@ -299,6 +344,13 @@ export class AdministrationService {
               'appointments-update',
               'appointment-modified'
             );
+            void this.recordStatusChange({
+              action: 'emit-result',
+              status: 'testPerformed',
+              appointmentUid,
+              personUid,
+              agentId,
+            });
           }
           // resolve(result);
           this.db
@@ -384,7 +436,7 @@ export class AdministrationService {
         .findOne({ $or: [{ userName: data.username }, { email: data.email }] })
         .then((agent) => {
           if (agent === null) {
-            data.psw = crypto.createHash('md5').update(randomPsw).digest('hex');
+            data.psw = bcrypt.hashSync(randomPsw, 10);
             this.db
               .collection(this.appConfig.loginCollection)
               .insertOne(data)

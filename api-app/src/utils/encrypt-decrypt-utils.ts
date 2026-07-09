@@ -8,34 +8,33 @@
  *************************************************************/
 import * as crypto from 'crypto';
 
-const algorithm = 'aes-128-cbc';
-const iv = crypto.randomBytes(16);
+const algorithm = 'aes-256-cbc';
+
+// Derive a 32-byte AES-256 key from the configured secret with SHA-256.
+const deriveKey = (secretKey: string) =>
+  crypto.createHash('sha256').update(secretKey).digest();
 
 export const encrypt = (text, secretKey) => {
-  const keyHash = crypto.createHash('sha1').update(secretKey);
-  let hashedKey = keyHash.copy().digest().slice(0, 16);
-
-  const cipher = crypto.createCipheriv(algorithm, hashedKey, iv);
+  // A fresh random IV per call — never reuse an IV with the same key in CBC.
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv(algorithm, deriveKey(secretKey), iv);
   const encrypted = Buffer.concat([cipher.update(text), cipher.final()]);
   return iv.toString('hex') + '.' + encrypted.toString('hex');
 };
 
 export const decrypt = (hash, secretKey) => {
-  const keyHash = crypto.createHash('sha1').update(secretKey);
-  let hashedKey = keyHash.copy().digest().slice(0, 16);
-
   const [hashIv, hashContent] = hash.split('.');
   const decipher = crypto.createDecipheriv(
     algorithm,
-    hashedKey,
+    deriveKey(secretKey),
     Buffer.from(hashIv, 'hex')
   );
-  const decrpyted = Buffer.concat([
+  const decrypted = Buffer.concat([
     decipher.update(Buffer.from(hashContent, 'hex')),
     decipher.final(),
   ]);
 
-  return decrpyted.toString();
+  return decrypted.toString();
 };
 
 export const convertToSHA256 = (text: string) =>

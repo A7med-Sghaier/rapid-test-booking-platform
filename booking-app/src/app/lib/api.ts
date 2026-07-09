@@ -154,9 +154,20 @@ function directApiUrl(path: string) {
   return `${baseUrl()}${normalizePath(path)}`;
 }
 
+function tokenKey() {
+  return envValue("VITE_TOKEN_NAME", "REACT_APP_TOKEN_NAME") ?? LEGACY_TOKEN_KEY;
+}
+
+export function getAuthToken(): string | null {
+  if (typeof localStorage === "undefined") return null;
+  return localStorage.getItem(tokenKey());
+}
+
 export async function apiFetch(path: string, init?: RequestInit) {
   const headers = new Headers(init?.headers);
   if (!headers.has("Content-Type") && init?.body) headers.set("Content-Type", "application/json");
+  const token = getAuthToken();
+  if (token && !headers.has("Authorization")) headers.set("Authorization", `Bearer ${token}`);
   const requestInit: RequestInit = { ...init, headers };
   const response = await fetch(apiUrl(path), requestInit);
   if (response.status !== 404) return response;

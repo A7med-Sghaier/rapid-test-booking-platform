@@ -21,7 +21,7 @@ import { AppConfigService } from '../config/app-config/app-config.service';
       imports: [AppConfigModule],
       useFactory: (appConf: AppConfigService) => ({
         secret: appConf.authJwtSecret,
-        signOptions: { expiresIn: '60s' },
+        signOptions: { expiresIn: '8h' },
       }),
       inject: [AppConfigService],
     }),
