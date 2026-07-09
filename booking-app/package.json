@@ -20,6 +20,7 @@
     "start": "vite --host 0.0.0.0 --port 3000",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "e2e": "playwright test",
     "dev": "vite",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
@@ -85,6 +86,7 @@
     "vaul": "1.1.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.56.0",
     "@storybook/addon-a11y": "^10.4.6",
     "@storybook/addon-docs": "^10.4.6",
     "@storybook/react-vite": "^10.4.6",
