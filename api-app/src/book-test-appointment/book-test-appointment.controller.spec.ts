@@ -8,10 +8,12 @@ describe('BookTestAppointmentController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [BookTestAppointmentController],
-      providers: [BookTestAppointmentService],
+      providers: [{ provide: BookTestAppointmentService, useValue: {} }],
     }).compile();
 
-    controller = module.get<BookTestAppointmentController>(BookTestAppointmentController);
+    controller = module.get<BookTestAppointmentController>(
+      BookTestAppointmentController
+    );
   });
 
   it('should be defined', () => {

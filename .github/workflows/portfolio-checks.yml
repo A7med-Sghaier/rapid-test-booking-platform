@@ -32,6 +32,10 @@ jobs:
         working-directory: api-app
         run: yarn build
 
+      - name: Test backend
+        working-directory: api-app
+        run: yarn test
+
       - name: Set up frontend Node.js
         uses: actions/setup-node@v4
         with:
@@ -51,6 +55,14 @@ jobs:
       - name: Test frontend
         working-directory: booking-app
         run: yarn test
+
+      - name: Install Playwright browser
+        working-directory: booking-app
+        run: yarn playwright install --with-deps chromium
+
+      - name: Smoke test frontend (Playwright)
+        working-directory: booking-app
+        run: yarn e2e
 
       - name: Check for sensitive file names
         run: |
