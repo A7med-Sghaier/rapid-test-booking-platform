@@ -1,11 +1,41 @@
-# Rapid Test Booking Platform
+<div align="center">
+
+<img src="./assets/banner.svg" width="100%" alt="Rapid-Test Platform" />
+
+<br/>
+
+<a href="https://github.com/A7med-Sghaier/rapid-test-booking-platform">
+  <img src="https://readme-typing-svg.demolab.com?font=Segoe+UI&weight=600&size=20&pause=1000&color=2DD4BF&center=true&vCenter=true&width=760&lines=Booking+%26+operations+for+rapid-test+centers;Public+self-service+booking+%C2%B7+agent+check-in;QR+codes+%C2%B7+PDF+certificates+%C2%B7+realtime+events;React+%C2%B7+NestJS+%C2%B7+MongoDB+%C2%B7+Docker" alt="Appointment booking &amp; operations for COVID-19 rapid-test centers." />
+</a>
+
+<br/><br/>
 
 [![Portfolio checks](https://github.com/A7med-Sghaier/rapid-test-booking-platform/actions/workflows/portfolio-checks.yml/badge.svg)](https://github.com/A7med-Sghaier/rapid-test-booking-platform/actions/workflows/portfolio-checks.yml)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
+[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![NestJS](https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white)](https://nestjs.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com)
 
-Full-stack booking and administration platform built for **COVID-19 rapid-test centers** during the pandemic. It combines a React/TypeScript booking UI with a NestJS API for appointment workflows, administration, authentication, QR code generation, PDF test certificates, email notifications, realtime events, and statistics.
+![Material UI](https://img.shields.io/badge/MUI-007FFF?style=flat-square&logo=mui&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![PDFKit](https://img.shields.io/badge/PDF-certificates-EC1C24?style=flat-square)
+![WebSockets](https://img.shields.io/badge/WebSockets-realtime-010101?style=flat-square&logo=socketdotio&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker_Compose-2496ED?style=flat-square&logo=docker&logoColor=white)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=flat-square&logo=playwright&logoColor=white)
 
-This is a portfolio-safe version of a personal/freelance project originally deployed for rapid antigen test centers. Production credentials, real appointment data, and private deployment details must stay out of the repository.
+</div>
+
+A full-stack booking and administration platform built for **COVID-19 rapid-test centers**: the
+public books test slots, staff manage the daily queue, agents check people in and record antigen
+results, and administrators handle settings, reports, **QR-coded PDF certificates**, and
+health-office / Corona-Warn-App reporting.
+
+> [!NOTE]
+> This is a **portfolio-safe** build — Mailpit stands in for real SMTP, MongoDB is seeded with
+> fake relative-date records, and CI scans for committed secrets. No production data ships here.
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Case Study
 
@@ -28,6 +58,8 @@ Key engineering decisions:
 - MongoDB seed data uses fake, relative-date records so the dashboard stays useful after every clean start.
 - GitHub Actions builds backend and frontend and scans for obvious committed secret patterns.
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## Architecture
 
 ```mermaid
@@ -38,6 +70,8 @@ flowchart LR
   API --> PDF[QR and PDF Generation]
   API --> Events[WebSocket Events]
 ```
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Demo Preview
 
@@ -75,6 +109,8 @@ The screenshots below use safe local demo data and show the public booking flow 
 
 ![Reports and audit view](docs/images/admin-reports-audit.png)
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## Portfolio Highlights
 
 - Built a multi-step COVID-19 rapid-test booking flow with React, TypeScript, Material UI, validation, localization, and responsive form components.
@@ -84,11 +120,15 @@ The screenshots below use safe local demo data and show the public booking flow 
 - Included Docker-based local startup for the API, frontend, MongoDB, demo seed data, and local email capture.
 - Included CI checks for backend build, frontend build, and obvious secret/file safety issues.
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## Tech Stack
 
 - Frontend: React 18, TypeScript, Vite, Material UI, Radix UI, Tailwind CSS, Recharts, React Router
 - Backend: NestJS 8, TypeScript, MongoDB, Passport, JWT, Mailer, PDFKit, QR code generation, WebSockets
 - Tooling: Docker Compose, Yarn Classic, Yarn Berry/Corepack, Jest, Vitest, ESLint, Prettier, GitHub Actions
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Repository Structure
 
@@ -102,12 +142,16 @@ docker-compose.yml       Local API, frontend, MongoDB, and Mailpit stack
 SECURITY.md              Public-release and secret handling notes
 ```
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## Documentation
 
 - [Architecture](docs/architecture.md): system overview, frontend/backend responsibilities, data flow, and portfolio value.
 - [API overview](docs/api-overview.md): recruiter-friendly summary of the main backend routes and workflows.
 - [Public release checklist](docs/public-release-checklist.md): safety checks before making the repository public.
 - [Demo and screenshot plan](docs/demo-plan.md): safe screenshot plan for the README and portfolio profile.
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Docker Setup
 
@@ -181,6 +225,8 @@ bash scripts/run-all-stacks.sh clean
 `seed` re-seeds the running MongoDB without touching the volume. `clean` removes
 the Docker volume, so MongoDB demo data will be recreated on the next startup.
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## Manual Local Setup
 
 Use this only if you want to run packages outside Docker. The Docker setup is the supported portfolio demo path because it pins the backend and frontend runtime differences for you.
@@ -207,6 +253,8 @@ corepack enable
 yarn install
 yarn start
 ```
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Development Commands
 
@@ -239,9 +287,13 @@ yarn storybook         # run Storybook at http://localhost:6006
 yarn build-storybook   # build the static Storybook site
 ```
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## Verification
 
 The GitHub Actions workflow installs dependencies, builds the backend, runs the full backend unit-test suite (`yarn test`), builds the frontend, runs the frontend Vitest suite, runs the Playwright smoke tests (public booking landing and admin sign-in), and scans for obvious committed secrets.
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Configuration
 
@@ -254,6 +306,8 @@ All sensitive runtime values should be provided through environment variables. S
 - Corona-Warn-App integration placeholders
 
 Do not commit real credentials, real appointment records, customer data, test results, certificates, or deployment hostnames.
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Roadmap And Tradeoffs
 
@@ -278,14 +332,32 @@ Potential next improvements:
 
 - Expand unit tests beyond the current smoke coverage into behaviour-level backend and frontend suites.
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## Current Portfolio Status
 
 The repository has Docker setup, safe demo seed data, screenshot previews, CI build checks, frontend test coverage for API URL generation, and public-release safety notes. Before switching visibility to public, Ahmed should make one final manual review of screenshots and ownership boundaries.
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
 
 ## Portfolio Summary
 
 Rapid Test Booking Platform demonstrates full-stack product delivery for a real-world COVID-19 rapid-test operation, across React, TypeScript, NestJS, MongoDB, authentication, operational dashboards, test-certificate generation, QR workflows, email notifications, and realtime app events.
 
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
 ## License
 
 Released under the [MIT License](LICENSE).
+
+<div align="center"><img src="./assets/divider.svg" width="70%" alt="" /></div>
+
+<div align="center">
+
+### Built by Ahmed Sghaier — Senior Full-Stack Engineer
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ahmed-sghaier-449778137)
+[![Email](https://img.shields.io/badge/Email-a7mado008@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:a7mado008@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-A7med--Sghaier-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/A7med-Sghaier)
+
+</div>
